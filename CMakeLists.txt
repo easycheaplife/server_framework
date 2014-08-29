@@ -1,0 +1,12 @@
+PROJECT(server_framework)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+SET(TINYNET_SRC_LIST ../tinynet/reactor.cc ../tinynet/event_handle_srv.cc ../tinynet/reactor_impl_select.cc ../tinynet/reactor_impl_poll.cc ../tinynet/reactor_impl_epoll.cc ../tinynet/server_impl.cc )
+INCLUDE_DIRECTORIES( ../easy/src/base ../tinynet)
+ADD_DEFINITIONS(-D__HAVE_EPOLL -D__LINUX)
+SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
+SET(CMAKE_CXX_FLAGS "-Wl,--no-as-needed -std=c++11 -pthread") 
+ADD_LIBRARY(tinynet STATIC ${TINYNET_SRC_LIST})
+SET_TARGET_PROPERTIES(tinynet PROPERTIES OUTPUT_NAME "tinynet")
+SET(LIBRARY_OUTPUT_PATH lib)
+ADD_SUBDIRECTORY( login )
+
