@@ -19,3 +19,11 @@
 *.exe
 *.out
 *.app
+
+#cmake
+*.cmake
+Makefile
+CMakeCache.txt
+CMakeFiles
+login/login
+

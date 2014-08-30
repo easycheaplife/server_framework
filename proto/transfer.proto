@@ -1,0 +1,7 @@
+package transfer;
+
+message Packet {
+  required int32 head = 1;   
+  required int32 guid = 2;
+  required string content = 3;   
+}
