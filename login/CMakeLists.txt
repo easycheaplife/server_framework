@@ -3,4 +3,10 @@ AUX_SOURCE_DIRECTORY( . SOURCE_DIRECTORY)
 ADD_EXECUTABLE(login ${SOURCE_DIRECTORY})
 INCLUDE_DIRECTORIES( ../../easy/src/base ../../tinynet ../../easy/dep/protobuf/src)
 SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb -L../../easy/dep/protobuf/src/.libs")
-TARGET_LINK_LIBRARIES(login tinynet protobuf proto)
+
+IF(UNIX)
+	TARGET_LINK_LIBRARIES(login tinynet protobuf proto)
+ELSE(WIN32)
+	TARGET_LINK_LIBRARIES(login tinynet ../../easy/dep/protobuf/vsprojects/Debug/libprotobuf proto ws2_32)
+ENDIF(UNIX)
+

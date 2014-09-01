@@ -3,10 +3,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 IF(UNIX)
 	SET(TINYNET_SRC_LIST ../tinynet/reactor.cc ../tinynet/event_handle_srv.cc ../tinynet/reactor_impl_select.cc ../tinynet/reactor_impl_poll.cc ../tinynet/reactor_impl_epoll.cc ../tinynet/server_framework_impl.cc )
-	MESSAGE("windows")
 ELSE(WIN32)
 	SET(TINYNET_SRC_LIST ../tinynet/reactor.cc ../tinynet/event_handle_srv.cc ../tinynet/reactor_impl_select.cc ../tinynet/server_framework_impl.cc )
-	MESSAGE("unix")
 ENDIF(UNIX)
 
 AUX_SOURCE_DIRECTORY( ./proto PROTO_SRC_LIST)
