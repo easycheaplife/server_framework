@@ -10,5 +10,4 @@ rm -f login/cmake_install.cmake
 rm -f login/CMakeCache.txt
 rm -f login/Makefile
 
-rm -rf lib/
 echo 'end clear'

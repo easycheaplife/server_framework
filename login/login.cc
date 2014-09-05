@@ -23,17 +23,16 @@
 #include "reactor.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string>
+#include "mongo/client/dbclient.h"	//	fpr mango
 #ifdef __LINUX
 #include "easy_dump.h"
 #endif // __LINUX
 
+const char* __mongo_host = "127.0.0.1:";
+const char* __mongo_port = "27017";
 int main(int __arg_num,char** args)
 {
-	/*	
-	g++ -g -Wl,--no-as-needed -std=c++11 -pthread -D__LINUX -D__HAVE_SELECT -o test reactor.h reactor.cc event_handle.h event_handle_srv.h event_handle_srv.cc reactor_impl.h reactor_impl_select.h reactor_impl_select.cc server_impl.h server_impl.cc test.cc  -I../easy/src/base
-	g++ -g -Wl,--no-as-needed -std=c++11 -pthread -D__LINUX -D__HAVE_EPOLL -o test reactor.h reactor.cc event_handle.h event_handle_srv.h event_handle_srv.cc reactor_impl.h reactor_impl_epoll.h reactor_impl_epoll.cc server_impl.h server_impl.cc test.cc -I../easy/src/base
-	g++ -g -Wl,--no-as-needed -std=c++11 -pthread -D__LINUX -D__HAVE_POLL -o test reactor.h reactor.cc event_handle.h event_handle_srv.h event_handle_srv.cc reactor_impl.h reactor_impl_poll.h reactor_impl_poll.cc server_impl.h server_impl.cc test.cc -I../easy/src/base
-	*/
 	if(3 != __arg_num)
 	{
 		printf("param error,please input correct param! for example: nohup ./transform 192.168.22.63 9876 & \n");
@@ -45,6 +44,20 @@ int main(int __arg_num,char** args)
 	//	just ignore it! if use gdb debug,add 'handle SIGPIPE nostop print' or 'handle SIGPIPE nostop noprint' before run.
 	signal(SIGPIPE,SIG_IGN);
 #endif // __LINUX
+	//	init mongo
+	mongo::Status __status = mongo::client::initialize();
+	if ( !__status.isOK() ) 
+	{
+        printf ("failed to initialize the client driver: %s\n",__status.toString().c_str());
+        return EXIT_FAILURE;
+    }
+	mongo::DBClientConnection __conn;
+	std::string __err_msg;
+    if ( ! __conn.connect( std::string( __mongo_host ) + __mongo_port , __err_msg ) ) {
+        printf("couldn't connect : %s\n",__err_msg.c_str());
+        return EXIT_FAILURE;
+    }
+	printf("connect mongo server %s %s ok\n",__mongo_host,__mongo_port);
 	char* __host = args[1];
 	unsigned int __port = atoi(args[2]);
 	Reactor* __reactor = Reactor::instance();
