@@ -23,6 +23,7 @@
 #include "reactor.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <iostream>
 #include <string>
 #include "mongo/client/dbclient.h"	//	fpr mango
 #ifdef __LINUX
@@ -31,6 +32,11 @@
 
 const char* __mongo_host = "127.0.0.1:";
 const char* __mongo_port = "27017";
+
+#ifndef verify
+#  define verify(x) MONGO_verify(x)
+#endif
+
 int main(int __arg_num,char** args)
 {
 	if(3 != __arg_num)
@@ -58,6 +64,17 @@ int main(int __arg_num,char** args)
         return EXIT_FAILURE;
     }
 	printf("connect mongo server %s %s ok\n",__mongo_host,__mongo_port);
+	//	test mongo code begin
+	const char * __ns = "test.test1";
+	__conn.dropCollection(__ns);
+	// clean up old data from any previous tests
+    __conn.remove( __ns, mongo::BSONObj() );
+    verify( __conn.findOne( __ns , mongo::BSONObj() ).isEmpty() );
+    // test insert
+    __conn.insert( __ns ,BSON( "name" << "eliot" << "num" << 1 ) );
+    verify( ! __conn.findOne( __ns , mongo::BSONObj() ).isEmpty() );
+	//	test mongo code end
+	
 	char* __host = args[1];
 	unsigned int __port = atoi(args[2]);
 	Reactor* __reactor = Reactor::instance();
