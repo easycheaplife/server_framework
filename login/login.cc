@@ -25,12 +25,14 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
-#include "mongo/client/dbclient.h"	//	fpr mango
+//	for mongo c drive 
+#include <bson.h>
+#include <mongoc.h>
 #ifdef __LINUX
 #include "easy_dump.h"
 #endif // __LINUX
 
-const char* __mongo_host = "127.0.0.1:";
+const char* __uri_string = "mongodb://192.168.22.61/";
 const char* __mongo_port = "27017";
 
 #ifndef verify
@@ -50,31 +52,48 @@ int main(int __arg_num,char** args)
 	//	just ignore it! if use gdb debug,add 'handle SIGPIPE nostop print' or 'handle SIGPIPE nostop noprint' before run.
 	signal(SIGPIPE,SIG_IGN);
 #endif // __LINUX
-	//	init mongo
-	mongo::Status __status = mongo::client::initialize();
-	if ( !__status.isOK() ) 
-	{
-        printf ("failed to initialize the client driver: %s\n",__status.toString().c_str());
-        return EXIT_FAILURE;
+
+	//	init mongoc
+	mongoc_init();
+	mongoc_client_t* __client = mongoc_client_new (__uri_string);
+	if (!__client) {
+      fprintf (stderr, "Failed to parse URI.\n");
+      return EXIT_FAILURE;
     }
-	mongo::DBClientConnection __conn;
-	std::string __err_msg;
-    if ( ! __conn.connect( std::string( __mongo_host ) + __mongo_port , __err_msg ) ) {
-        printf("couldn't connect : %s\n",__err_msg.c_str());
-        return EXIT_FAILURE;
+    bson_t __query;
+    bson_init (&__query);
+    mongoc_collection_t* __collection = mongoc_client_get_collection (__client, "test", "test");
+	//	add a doc
+    const bson_t* __doc = bson_new ();
+	bson_oid_t __oid;
+	bson_oid_init (&__oid, NULL);
+	BSON_APPEND_OID (__doc, "_id", &__oid);
+    BSON_APPEND_UTF8 (__doc, "hello", "world");
+	bson_error_t __error;
+    if (!mongoc_collection_insert (__collection, MONGOC_INSERT_NONE, __doc, NULL, &__error)) {
+        printf ("%s\n", __error.message);
     }
-	printf("connect mongo server %s %s ok\n",__mongo_host,__mongo_port);
-	//	test mongo code begin
-	const char * __ns = "test.test1";
-	__conn.dropCollection(__ns);
-	// clean up old data from any previous tests
-    __conn.remove( __ns, mongo::BSONObj() );
-    verify( __conn.findOne( __ns , mongo::BSONObj() ).isEmpty() );
-    // test insert
-    __conn.insert( __ns ,BSON( "name" << "eliot" << "num" << 1 ) );
-    verify( ! __conn.findOne( __ns , mongo::BSONObj() ).isEmpty() );
-	//	test mongo code end
-	
+	bson_destroy (__doc);
+	//	find a doc
+	mongoc_cursor_t* __cursor = mongoc_collection_find (__collection,
+                                    MONGOC_QUERY_NONE,
+                                    0,
+                                    0,
+                                    0,
+                                    &__query,
+                                    NULL,  /* Fields, NULL for all. */
+                                    NULL); /* Read Prefs, NULL for default */
+	char* __str = NULL;;
+	while (mongoc_cursor_next (__cursor, &__doc)) {
+      __str = bson_as_json (__doc, NULL);
+      fprintf (stdout, "%s\n", __str);
+      bson_free (__str);
+	}
+    if (mongoc_cursor_error (__cursor, &__error)) {
+      fprintf (stderr, "Cursor Failure: %s\n", __error.message);
+      return EXIT_FAILURE;
+    }
+   
 	char* __host = args[1];
 	unsigned int __port = atoi(args[2]);
 	Reactor* __reactor = Reactor::instance();
