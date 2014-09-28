@@ -19,15 +19,16 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+//	for mongo c drive 
+#include <bson.h>
+#include <mongoc.h>
 #include "server_impl.h"
 #include "reactor.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
 #include <string>
-//	for mongo c drive 
-#include <bson.h>
-#include <mongoc.h>
+
 #ifdef __LINUX
 #include "easy_dump.h"
 #endif // __LINUX
@@ -64,7 +65,12 @@ int main(int __arg_num,char** args)
     bson_init (&__query);
     mongoc_collection_t* __collection = mongoc_client_get_collection (__client, "test", "test");
 	//	add a doc
-    const bson_t* __doc = bson_new ();
+#ifdef WIN32
+	bson_t* __doc = bson_new ();
+#else
+	const bson_t* __doc = bson_new ();
+#endif //WIN32
+    
 	bson_oid_t __oid;
 	bson_oid_init (&__oid, NULL);
 	BSON_APPEND_OID (__doc, "_id", &__oid);
@@ -83,8 +89,13 @@ int main(int __arg_num,char** args)
                                     &__query,
                                     NULL,  /* Fields, NULL for all. */
                                     NULL); /* Read Prefs, NULL for default */
-	char* __str = NULL;;
+	char* __str = NULL;
+#ifdef WIN32
+	while (mongoc_cursor_next (__cursor, (const bson_t**)&__doc)) {
+#else
 	while (mongoc_cursor_next (__cursor, &__doc)) {
+#endif // WIN32
+	
       __str = bson_as_json (__doc, NULL);
       fprintf (stdout, "%s\n", __str);
       bson_free (__str);

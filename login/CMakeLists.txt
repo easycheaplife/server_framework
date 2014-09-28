@@ -6,7 +6,7 @@ SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb -fpermissive -L../../easy
 
 IF(UNIX)
 	TARGET_LINK_LIBRARIES(login tinynet protobuf proto bson pthread mongoc-1.0)
-ELSE(WIN32)
-	TARGET_LINK_LIBRARIES(login tinynet ../../easy/dep/protobuf/vsprojects/Debug/libprotobuf proto ws2_32)
+ELSE(UNIX)
+	TARGET_LINK_LIBRARIES(login tinynet ../../easy/dep/protobuf/vsprojects/Debug/libprotobuf proto ../dep/mongoc/lib/bson-1.0 ../dep/mongoc/lib/mongoc-1.0 ws2_32)
 ENDIF(UNIX)
 
