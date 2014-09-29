@@ -8,6 +8,7 @@ echo delete hide file use    del /F /Q /S /A:H-S
 echo ----------------------------------------------------
 
 del /F /Q /S *.aps *.idb *.ncp *.obj *.pch *.sbr *.tmp *.pdb *.bsc *.ilk *.res *.ncb *.opt *.suo *.manifest *.dep *.user *.sdf *.sln *.vcxproj *.filters *.cmake *.opensdf *.sdf 
-del /F /Q /S /A:H-S CMakeCache.txt  server_framework.v11.suo 
+del /F /Q /S /A:H-S server_framework.v11.suo 
 rd  /S /Q CMakeFiles Debug Win32 proto.dir tinynet.dir 
+del /F /Q /S CMakeCache.txt
 pause

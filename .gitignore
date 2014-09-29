@@ -47,4 +47,6 @@ tinynet.vcxproj
 tinynet.vcxproj.filters
 ZERO_CHECK.vcxproj.filters
 login/login.vcxproj.filters
-
+x64/
+login/Debug/
+wrpcrt4.pdb/
