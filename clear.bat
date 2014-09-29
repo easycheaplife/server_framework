@@ -9,6 +9,9 @@ echo ----------------------------------------------------
 
 del /F /Q /S *.aps *.idb *.ncp *.obj *.pch *.sbr *.tmp *.pdb *.bsc *.ilk *.res *.ncb *.opt *.suo *.manifest *.dep *.user *.sdf *.sln *.vcxproj *.filters *.cmake *.opensdf *.sdf 
 del /F /Q /S /A:H-S server_framework.v11.suo 
-rd  /S /Q CMakeFiles Debug Win32 proto.dir tinynet.dir 
+rd  /S /Q CMakeFiles Debug Win32 proto.dir tinynet.dir x64 wrpcrt4.pdb lib 
 del /F /Q /S CMakeCache.txt
+
+cd login
+clear.bat
 pause
