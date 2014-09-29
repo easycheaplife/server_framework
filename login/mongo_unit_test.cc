@@ -23,7 +23,7 @@ void MongocUnitTest::init()
 #ifdef WIN32
 	while (mongoc_cursor_next (__cursor, (const bson_t**)&doc_)) {
 #else
-	while (mongoc_cursor_next (__cursor, &__doc)) {
+	while (mongoc_cursor_next (__cursor, &doc_)) {
 #endif // WIN32
 		__str = bson_as_json (doc_, NULL);
 		fprintf (stdout, "%s\n", __str);
