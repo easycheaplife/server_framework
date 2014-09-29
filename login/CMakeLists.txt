@@ -30,4 +30,6 @@ ELSEIF(WIN32)
 	#TARGET_LINK_LIBRARIES(login tinynet ../../easy/dep/protobuf/vsprojects/Debug/libprotobuf proto ../dep/mongoc/x86/lib/bson-1.0 ../dep/mongoc/x86/lib/mongoc-1.0 ws2_32)
 ENDIF(UNIX)
 
+SET(EXECUTABLE_OUTPUT_PATH ../bin)
+
 
