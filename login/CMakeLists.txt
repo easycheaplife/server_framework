@@ -25,7 +25,7 @@ IF(UNIX)
 	TARGET_LINK_LIBRARIES(login tinynet protobuf proto bson pthread mongoc-1.0)
 ELSEIF(WIN32)
 	#	64 bit
-	TARGET_LINK_LIBRARIES(login tinynet ../../easy/dep/protobuf/vsprojects/x64/Debug/libprotobuf proto ../dep/mongoc/x64/lib/bson-1.0 ../dep/mongoc/x64/lib/mongoc-1.0 ws2_32)
+	TARGET_LINK_LIBRARIES(login tinynet easy ../../easy/dep/protobuf/vsprojects/x64/Debug/libprotobuf proto ../dep/mongoc/x64/lib/bson-1.0 ../dep/mongoc/x64/lib/mongoc-1.0 ws2_32)
 	#	32 bit
 	#TARGET_LINK_LIBRARIES(login tinynet ../../easy/dep/protobuf/vsprojects/Debug/libprotobuf proto ../dep/mongoc/x86/lib/bson-1.0 ../dep/mongoc/x86/lib/mongoc-1.0 ws2_32)
 ENDIF(UNIX)
