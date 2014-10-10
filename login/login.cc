@@ -19,42 +19,41 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-//	for mongo c drive 
-#include "mongo_unit_test.h"
-#include "server_impl.h"
+
+#include "login.h"
 #include "reactor.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <iostream>
-#include <string>
+#include "login_packet_handle.h"
 
 #ifdef __LINUX
 #include "easy_dump.h"
 #endif // __LINUX
 
-int main(int __arg_num,char** args)
+Login::Login(const char* __host /*= "0.0.0.0"*/,unsigned int __port /*= 9876*/ )
+	: Server_Impl(Reactor::instance(),__host,__port),host_(__host),port_(__port)
 {
-	if(3 != __arg_num)
-	{
-		printf("param error,please input correct param! for example: nohup ./transform 192.168.22.63 9876 & \n");
-		exit(1);
-	}
 #ifdef __LINUX
 	signal(SIGSEGV,dump);
 	//	when calls send() function twice if peer socket is closed, the SIG_PIPE signal will be trigger. and the SIG_PIPE 's default action is exit process.
 	//	just ignore it! if use gdb debug,add 'handle SIGPIPE nostop print' or 'handle SIGPIPE nostop noprint' before run.
 	signal(SIGPIPE,SIG_IGN);
 #endif // __LINUX
+	packet_handle_ = new Login_Packet_Handle();
+}
 
-	MongocUnitTest __mongoc_unit_test;
-	__mongoc_unit_test.init();
-	__mongoc_unit_test.save();
-   
-	char* __host = args[1];
-	unsigned int __port = atoi(args[2]);
-	Reactor* __reactor = Reactor::instance();
-	Server_Impl __event_handle_srv(__reactor,__host,__port);
+Login::~Login()
+{
+	Reactor::destory();
+}
+
+int Login::event_loop()
+{
 	static const int __max_time_out = 5000*1000;
-	__reactor->event_loop(__max_time_out);
+	return Reactor::instance()->event_loop(__max_time_out);
+}
+
+int Login::handle_packet( unsigned int __packet_id,const std::string& __string_packet )
+{
+	packet_handle_->handle_packet(__packet_id,__string_packet);
 	return 0;
 }
+

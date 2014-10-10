@@ -14,4 +14,7 @@ del /F /Q /S CMakeCache.txt
 
 cd login
 clear.bat
+cd ..
+cd test_client
+clear.bat
 pause

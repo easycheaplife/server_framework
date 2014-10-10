@@ -1,12 +1,13 @@
 PROJECT(server_framework)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
-#SET(EASY_SRC_LIST ../tinynet/reactor.cc ../tinynet/event_handle_srv.cc ../tinynet/reactor_impl_select.cc ../tinynet/reactor_impl_poll.cc ../tinynet/reactor_impl_epoll.cc ../tinynet/server_framework_impl.cc )
 AUX_SOURCE_DIRECTORY( ../easy/src/base EASY_SRC_LIST)
 IF(UNIX)
 	SET(TINYNET_SRC_LIST ../tinynet/reactor.cc ../tinynet/event_handle_srv.cc ../tinynet/reactor_impl_select.cc ../tinynet/reactor_impl_poll.cc ../tinynet/reactor_impl_epoll.cc ../tinynet/server_framework_impl.cc )
 ELSE(WIN32)
-	SET(TINYNET_SRC_LIST ../tinynet/reactor.h ../tinynet/reactor.cc ../tinynet/event_handle_srv.h ../tinynet/event_handle_srv.cc ../tinynet/reactor_impl_select.h ../tinynet/reactor_impl_select.cc ../tinynet/reactor_impl_iocp.h ../tinynet/reactor_impl_iocp.cc ../tinynet/server_framework_impl.h ../tinynet/server_framework_impl.cc )
+	SET(TINYNET_SRC_LIST ../tinynet/reactor.h ../tinynet/reactor.cc ../tinynet/reactor_impl_select.h ../tinynet/reactor_impl_select.cc ../tinynet/reactor_impl_iocp.h ../tinynet/reactor_impl_iocp.cc
+	../tinynet/event_handle_srv.h ../tinynet/event_handle_srv.cc ../tinynet/server_framework_impl.h ../tinynet/server_framework_impl.cc 
+	../tinynet/event_handle_cli.h ../tinynet/event_handle_cli.cc ../tinynet/client_protobuf_impl.h ../tinynet/client_protobuf_impl.cc)
 ENDIF(UNIX)
 
 AUX_SOURCE_DIRECTORY( ./proto PROTO_SRC_LIST)
@@ -28,4 +29,5 @@ SET_TARGET_PROPERTIES(tinynet PROPERTIES OUTPUT_NAME "tinynet")
 SET_TARGET_PROPERTIES(proto PROPERTIES OUTPUT_NAME "proto")
 SET(LIBRARY_OUTPUT_PATH lib)
 ADD_SUBDIRECTORY( login )
+ADD_SUBDIRECTORY(test_client)
 

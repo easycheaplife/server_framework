@@ -1,23 +1,28 @@
-#include "mongo_unit_test.h"
+#include "mongo_unit_login.h"
 #include "easy_mongoc_wrapper.h"
 
 
-MongocUnitTest::MongocUnitTest(std::string	__collection_name)
+MongocUnitLogin::MongocUnitLogin(std::string	__collection_name)
 {
 	collection_name_ = __collection_name;
 }
 
-MongocUnitTest::~MongocUnitTest()
+MongocUnitLogin::~MongocUnitLogin()
 {
 
 }
 
-void MongocUnitTest::init()
+void MongocUnitLogin::init()
 {
+	if(0)
+	{
+		save();
+	}
 	//	find a doc
 	doc_ = bson_new ();
 	bson_t* __query = bson_new ();
 	bson_init (__query);
+	BSON_APPEND_UTF8 (__query, "lee", "lee");
 	mongoc_cursor_t* __cursor = easy::MongocWrapper::instance()->collection_find(collection_name_.c_str(),__query);
 	char* __str = NULL;
 #ifdef WIN32
@@ -34,13 +39,12 @@ void MongocUnitTest::init()
 	}
 }
 
-void MongocUnitTest::save()
+void MongocUnitLogin::save()
 {
 	doc_ = bson_new ();
 	bson_oid_t __oid;
 	bson_oid_init (&__oid, NULL);
 	BSON_APPEND_OID (doc_, "_id", &__oid);
-	BSON_APPEND_UTF8 (doc_, "hello", "world");
+	BSON_APPEND_UTF8 (doc_, "lee", "lee");
 	easy::MongocWrapper::instance()->collection_insert(collection_name_.c_str(),doc_);
-	bson_destroy (doc_);
 }
