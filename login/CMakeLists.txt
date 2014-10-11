@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 AUX_SOURCE_DIRECTORY( . SOURCE_DIRECTORY)	
 ADD_EXECUTABLE(login ${SOURCE_DIRECTORY})
-INCLUDE_DIRECTORIES( ../../easy/src/base ../../tinynet ../../easy/dep/protobuf/src ../../easy/dep/mongo-c-driver/src/mongoc ../../easy/dep/mongo-c-driver/src/libbson/src/bson)
+INCLUDE_DIRECTORIES( ../common ../../easy/src/base ../../tinynet ../../easy/dep/protobuf/src ../../easy/dep/mongo-c-driver/src/mongoc ../../easy/dep/mongo-c-driver/src/libbson/src/bson)
 
 IF(UNIX)
 	OPTION(USE_32BITS "Compile for 32bits processors(linux only)" OFF)

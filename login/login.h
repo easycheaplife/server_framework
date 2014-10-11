@@ -32,7 +32,7 @@ public:
 
     ~Login();
 
-	virtual int handle_packet(unsigned int __packet_id,const std::string& __string_packet);
+	virtual int handle_packet(int __fd,unsigned int __packet_id,const std::string& __string_packet);
 
 	int event_loop();
 private:

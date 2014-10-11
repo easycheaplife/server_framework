@@ -1,3 +1,24 @@
+/****************************************************************************
+ Copyright (c) 2013-2014 King Lee
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ****************************************************************************/
 #include "mongo_unit_login.h"
 #include "easy_mongoc_wrapper.h"
 
@@ -18,11 +39,25 @@ void MongocUnitLogin::init()
 	{
 		save();
 	}
+}
+
+void MongocUnitLogin::save()
+{
+	doc_ = bson_new ();
+	bson_oid_t __oid;
+	bson_oid_init (&__oid, NULL);
+	BSON_APPEND_OID (doc_, "_id", &__oid);
+	BSON_APPEND_UTF8 (doc_, "lee", "lee");
+	easy::MongocWrapper::instance()->collection_insert(collection_name_.c_str(),doc_);
+}
+
+bool MongocUnitLogin::query( std::string& __user_name, std::string& __user_pwd )
+{
 	//	find a doc
 	doc_ = bson_new ();
 	bson_t* __query = bson_new ();
 	bson_init (__query);
-	BSON_APPEND_UTF8 (__query, "lee", "lee");
+	BSON_APPEND_UTF8 (__query, __user_name.c_str(), __user_pwd.c_str());
 	mongoc_cursor_t* __cursor = easy::MongocWrapper::instance()->collection_find(collection_name_.c_str(),__query);
 	char* __str = NULL;
 #ifdef WIN32
@@ -37,14 +72,9 @@ void MongocUnitLogin::init()
 	if (mongoc_cursor_error (__cursor, &error_)) {
 		fprintf (stderr, "Cursor Failure: %s\n", error_.message);
 	}
-}
-
-void MongocUnitLogin::save()
-{
-	doc_ = bson_new ();
-	bson_oid_t __oid;
-	bson_oid_init (&__oid, NULL);
-	BSON_APPEND_OID (doc_, "_id", &__oid);
-	BSON_APPEND_UTF8 (doc_, "lee", "lee");
-	easy::MongocWrapper::instance()->collection_insert(collection_name_.c_str(),doc_);
+	if (__str)
+	{
+		return true;
+	}
+	return false;
 }

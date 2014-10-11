@@ -39,8 +39,8 @@ login/login.vcxproj.filte
 proto.dir/
 proto.vcxproj
 proto.vcxproj.filters
-proto/transfer.pb.cc
-proto/transfer.pb.h
+*.pb.cc
+*.pb.h
 server_framework.sln
 tinynet.dir/
 tinynet.vcxproj

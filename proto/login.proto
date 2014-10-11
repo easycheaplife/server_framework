@@ -4,3 +4,8 @@ message c2l_login {
   required string user_name = 2;   
   required string user_pwd = 3;   
 }
+
+message l2c_login {
+	required int32 status = 1;  
+}
+

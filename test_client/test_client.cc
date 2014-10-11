@@ -21,11 +21,10 @@
  ****************************************************************************/
 #include <stdlib.h>
 #include <stdio.h>
-#include <iostream>
 #include <string>
-#include "reactor.h"
-#include "client_protobuf_impl.h"
+#include "client.h"
 #include "login.pb.h"
+#include "msg.h"
 int main(int __arg_num,char** args)
 {
 	if(3 != __arg_num)
@@ -35,12 +34,11 @@ int main(int __arg_num,char** args)
 	}
 	char* __host = args[1];
 	unsigned int __port = atoi(args[2]);
-	Reactor* __reactor = Reactor::instance();
-	Client_Impl* __client_impl = new Client_Impl(__reactor,__host,__port);
+	Client* __client_impl = new Client(__host,__port);
 	static const int __max_time_out = 5000*1000;
 	//	test code begin
 	unsigned int __head = 0;
-	int __pakcet_id = 123;
+	int __pakcet_id = MSG_C2L_LOGIN;
 	login::c2l_login __c2l_login;
 	__c2l_login.set_user_name("lee");
 	__c2l_login.set_user_pwd("lee");
@@ -51,6 +49,6 @@ int main(int __arg_num,char** args)
 	__client_impl->write((const char*)&__head,sizeof(unsigned int));
 	__client_impl->write(__string_login);
 	//	test code end
-	__reactor->event_loop(__max_time_out);
+	__client_impl->event_loop(__max_time_out);
 	return 0;
 }

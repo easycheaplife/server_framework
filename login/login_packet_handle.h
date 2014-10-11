@@ -27,11 +27,11 @@
 class Login_Packet_Handle : public Packet_Handle
 {
 public:
-	Login_Packet_Handle(){}
+	Login_Packet_Handle(Event_Handle* __event_handle) : Packet_Handle(__event_handle) {}
 
 	virtual ~Login_Packet_Handle() { }
 
-	virtual int handle_packet(int __packet_id,const std::string& __packet);
+	virtual int handle_packet(int __fd,int __packet_id,const std::string& __packet);
 };
 
 #endif // login_packet_handle_h__

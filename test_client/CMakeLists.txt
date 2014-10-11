@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 AUX_SOURCE_DIRECTORY( . SOURCE_DIRECTORY)	
 ADD_EXECUTABLE(test_client ${SOURCE_DIRECTORY})
-INCLUDE_DIRECTORIES( ../../easy/src/base ../../tinynet ../../easy/dep/protobuf/src )
+INCLUDE_DIRECTORIES( ../common ../../easy/src/base ../../tinynet ../../easy/dep/protobuf/src )
 
 IF(UNIX)
 	OPTION(USE_32BITS "Compile for 32bits processors(linux only)" OFF)

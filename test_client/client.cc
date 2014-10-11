@@ -19,49 +19,28 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "mongo_unit_test.h"
-#include "easy_mongoc_wrapper.h"
+#include "client.h"
+#include "reactor.h"
+#include "msg.h"
+#include "login.pb.h"
+#include "client_packet_handle.h"
 
-
-MongocUnitTest::MongocUnitTest(std::string	__collection_name)
+int Client::handle_packet( int __fd,unsigned int __packet_id,const std::string& __string_packet )
 {
-	collection_name_ = __collection_name;
+	return packet_handle_->handle_packet(__fd,__packet_id,__string_packet);
 }
 
-MongocUnitTest::~MongocUnitTest()
+Client::Client( const char* __host,unsigned int __port ) : Client_Impl(Reactor::instance(),__host,__port) 
+{
+	packet_handle_ = new Client_Packet_Handle(this);
+}
+
+Client::~Client()
 {
 
 }
 
-void MongocUnitTest::init()
+int Client::event_loop( unsigned long __millisecond )
 {
-	//	find a doc
-	doc_ = bson_new ();
-	bson_t* __query = bson_new ();
-	bson_init (__query);
-	mongoc_cursor_t* __cursor = easy::MongocWrapper::instance()->collection_find(collection_name_.c_str(),__query);
-	char* __str = NULL;
-#ifdef WIN32
-	while (mongoc_cursor_next (__cursor, (const bson_t**)&doc_)) {
-#else
-	while (mongoc_cursor_next (__cursor, &doc_)) {
-#endif // WIN32
-		__str = bson_as_json (doc_, NULL);
-		fprintf (stdout, "%s\n", __str);
-		bson_free (__str);
-	}
-	if (mongoc_cursor_error (__cursor, &error_)) {
-		fprintf (stderr, "Cursor Failure: %s\n", error_.message);
-	}
-}
-
-void MongocUnitTest::save()
-{
-	doc_ = bson_new ();
-	bson_oid_t __oid;
-	bson_oid_init (&__oid, NULL);
-	BSON_APPEND_OID (doc_, "_id", &__oid);
-	BSON_APPEND_UTF8 (doc_, "hello", "world");
-	easy::MongocWrapper::instance()->collection_insert(collection_name_.c_str(),doc_);
-	bson_destroy (doc_);
+	return Reactor::instance()->event_loop(__millisecond);
 }
