@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 AUX_SOURCE_DIRECTORY( . SOURCE_DIRECTORY)	
 ADD_EXECUTABLE(login ${SOURCE_DIRECTORY})
-INCLUDE_DIRECTORIES( ../common ../../easy/src/base ../../tinynet ../../easy/dep/protobuf/src ../../easy/dep/mongo-c-driver/src/mongoc ../../easy/dep/mongo-c-driver/src/libbson/src/bson)
+INCLUDE_DIRECTORIES( ../common ../../easy/src/base ../../tinynet ../../easy/dep/protobuf/src ../../easy/dep/mongo-c-driver/src/mongoc ../../easy/dep/mongo-c-driver/src/libbson/src/bson ../../easy/dep/mongo-cxx-driver/src)
 
 IF(UNIX)
 	OPTION(USE_32BITS "Compile for 32bits processors(linux only)" OFF)
@@ -16,13 +16,13 @@ IF(UNIX)
 		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m64")  
 		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64")    
 	ENDIF(USE_32BITS)  
-	SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb -fpermissive -L../../easy/dep/protobuf/src/.libs -L../../easy/dep/mongo-c-driver/src/libbson/.libs -L../../easy/dep/mongo-c-driver/.libs")
+	SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb -fpermissive -L../../easy/dep/protobuf/src/.libs -L../../easy/dep/mongo-c-driver/src/libbson/.libs -L../../easy/dep/mongo-c-driver/.libs -L../../easy/dep/mongo-cxx-driver/build/linux2/normal")
 ELSE(WIN32)
 
 ENDIF(UNIX)
 
 IF(UNIX)
-	TARGET_LINK_LIBRARIES(login tinynet easy protobuf proto bson pthread mongoc-1.0)
+	TARGET_LINK_LIBRARIES(login tinynet easy protobuf proto bson pthread mongoc-1.0 mongoclient boost_thread boost_regex)
 ELSEIF(WIN32)
 	#	64 bit
 	TARGET_LINK_LIBRARIES(login tinynet easy ../../easy/dep/protobuf/vsprojects/x64/Debug/libprotobuf proto ../dep/mongoc/x64/lib/bson-1.0 ../dep/mongoc/x64/lib/mongoc-1.0 ws2_32)

@@ -19,29 +19,23 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-//	for mongo c drive 
-#include "mongoc_unit_test.h"
-#include "mongocxx_unit_test.h"
-#include "login.h"
+#ifndef mongocxx_unit_test_h__
+#define mongocxx_unit_test_h__
 
-int main(int __arg_num,char** args)
-{
-	if(3 != __arg_num)
-	{
-		printf("param error,please input correct param! for example: nohup ./transform 192.168.22.63 9876 & \n");
-		exit(1);
-	}
+#include <string>
 
-	MongocUnitTest __mongoc_unit_test;
-	__mongoc_unit_test.init();
-	//__mongoc_unit_test.save();
-	
-	MongocxxUnitTest __mongocxx_unit_test;
-	__mongocxx_unit_test.save();
-	
-	char* __host = args[1];
-	unsigned int __port = atoi(args[2]);
-	Login __login_srv(__host,__port);
-	__login_srv.event_loop();
-	return 0;
-}
+class MongocxxUnitTest {
+public:
+	MongocxxUnitTest(std::string	__collection_name = "test");
+
+	~MongocxxUnitTest();
+
+	void init();
+
+	void save();
+private:
+
+	std::string		collection_name_;
+};
+
+#endif // mongocxx_unit_test_h__
