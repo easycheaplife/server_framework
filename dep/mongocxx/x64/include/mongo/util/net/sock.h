@@ -33,7 +33,8 @@
 # include <sys/uio.h>
 #endif
 #else
-
+#include<windows.h>
+#include<winsock2.h>
 #endif // not _WIN32
 
 #include <boost/scoped_ptr.hpp>
