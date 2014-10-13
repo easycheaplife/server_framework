@@ -13,7 +13,7 @@ ELSE(WIN32)
 ENDIF(UNIX)
 
 AUX_SOURCE_DIRECTORY( ./proto PROTO_SRC_LIST)
-INCLUDE_DIRECTORIES( . ../easy/src/base ../tinynet ../easy/dep/protobuf/src ./proto ../easy/dep/mongo-c-driver/src/mongoc ../easy/dep/mongo-c-driver/src/libbson/src/bson ../easy/dep/mongo-cxx-driver/src)
+INCLUDE_DIRECTORIES( . ../easy/src/base ../tinynet ../easy/dep/protobuf/src ./proto ../easy/dep/mongo-c-driver/src/mongoc ../easy/dep/mongo-c-driver/src/libbson/src/bson ../easy/dep/mongo-cxx-driver/src c:/local/boost_1_53_0)
 
 IF(UNIX)
 	ADD_DEFINITIONS(-D__HAVE_EPOLL -D__LINUX)

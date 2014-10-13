@@ -21,7 +21,9 @@
  ****************************************************************************/
 //	for mongo c drive 
 #include "mongoc_unit_test.h"
+#include "mongocxx_unit_test.h"
 #include "login.h"
+
 int main(int __arg_num,char** args)
 {
 	if(3 != __arg_num)
@@ -33,6 +35,9 @@ int main(int __arg_num,char** args)
 	MongocUnitTest __mongoc_unit_test;
 	__mongoc_unit_test.init();
 	//__mongoc_unit_test.save();
+
+	MongocxxUnitTest __mongocxx_unit_test;
+	__mongocxx_unit_test.save();
 
 	char* __host = args[1];
 	unsigned int __port = atoi(args[2]);
