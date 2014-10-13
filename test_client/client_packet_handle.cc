@@ -23,6 +23,7 @@
 #include "login.pb.h"
 #include "msg.h"
 #include "event_handle.h"
+#include <stdio.h>
 
 int Client_Packet_Handle::handle_packet(int __fd, int __packet_id,const std::string& __packet )
 {
