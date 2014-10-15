@@ -21,7 +21,7 @@
  ****************************************************************************/
 #include "login_packet_handle.h"
 #include "login.pb.h"
-#include "mongoc_unit_login.h"
+#include "mongocxx_unit_login.h"
 #include "msg.h"
 #include "event_handle.h"
 
@@ -35,8 +35,8 @@ int Login_Packet_Handle::handle_packet(int __fd, int __packet_id,const std::stri
 			__packet_c2l_login.ParseFromString(__packet);
 			std::string __user_name = __packet_c2l_login.user_name();
 			std::string __user_pwd = __packet_c2l_login.user_pwd();
-			MongocUnitLogin __mongoc_unit_login;
-			bool __success = __mongoc_unit_login.query(__user_name,__user_pwd);
+			MongocxxUnitLogin __mongocxx_unit_login;
+			bool __success = __mongocxx_unit_login.query(__user_name,__user_pwd);
 			if(__success){
 				login::l2c_login __packet_l2c_login;
 				__packet_l2c_login.set_status(LOGIN_STATUS_OK);

@@ -19,18 +19,31 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef mongocxx_unit_test_h__
-#define mongocxx_unit_test_h__
-#include "easy_mongocxx_unit.h"
+#include "mongocxx_unit_login.h"
+#include "easy_mongocxx_wrapper.h"
 
-class MongocxxUnitTest : public easy::MongocxxUnit
+MongocxxUnitLogin::MongocxxUnitLogin(std::string	__collection)
+	:MongocxxUnit(__collection)
 {
-public:
-	MongocxxUnitTest(std::string	__collection = __default_collection);
+	
+}
 
-	~MongocxxUnitTest();
+MongocxxUnitLogin::~MongocxxUnitLogin()
+{
 
-	void test();
-};
+}
 
-#endif // mongocxx_unit_test_h__
+bool MongocxxUnitLogin::query( std::string& __user_name, std::string& __user_pwd )
+{
+	std::auto_ptr<mongo::DBClientCursor> __cursor = easy::MongocxxWrapper::instance()->db_client_connection().query( collection_ , mongo::BSONObj() );
+	while (__cursor->more())
+	{
+		mongo::BSONObj __res = __cursor->next();
+		const char* __pwd = __res.getStringField( __user_name ); 
+		if (__user_pwd == __pwd)
+		{
+			return true;
+		}
+	}
+	return false;
+}

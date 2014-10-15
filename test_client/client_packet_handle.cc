@@ -38,6 +38,10 @@ int Client_Packet_Handle::handle_packet(int __fd, int __packet_id,const std::str
 			{
 				printf("login ok\n");
 			}
+			else
+			{
+				printf("login error\n");
+			}
 		}
 		break;
 	default:

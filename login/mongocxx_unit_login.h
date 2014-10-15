@@ -19,18 +19,22 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef mongocxx_unit_test_h__
-#define mongocxx_unit_test_h__
+#ifndef mongocxx_unit_login_h__
+#define mongocxx_unit_login_h__
+
 #include "easy_mongocxx_unit.h"
 
-class MongocxxUnitTest : public easy::MongocxxUnit
-{
+class MongocxxUnitLogin : public easy::MongocxxUnit{
 public:
-	MongocxxUnitTest(std::string	__collection = __default_collection);
+	MongocxxUnitLogin(std::string	__collection = __default_collection);
 
-	~MongocxxUnitTest();
+	~MongocxxUnitLogin();
 
-	void test();
+	void init();
+
+	bool query(std::string& __user_name, std::string& __user_pwd);
+
+	void save();
 };
 
-#endif // mongocxx_unit_test_h__
+#endif // mongocxx_unit_login_h__

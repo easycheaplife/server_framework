@@ -43,12 +43,7 @@ void MongocUnitLogin::init()
 
 void MongocUnitLogin::save()
 {
-	doc_ = bson_new ();
-	bson_oid_t __oid;
-	bson_oid_init (&__oid, NULL);
-	BSON_APPEND_OID (doc_, "_id", &__oid);
-	BSON_APPEND_UTF8 (doc_, "lee", "lee");
-	easy::MongocWrapper::instance()->collection_insert(collection_name_.c_str(),doc_);
+
 }
 
 bool MongocUnitLogin::query( std::string& __user_name, std::string& __user_pwd )

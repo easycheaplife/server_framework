@@ -22,9 +22,15 @@
 #include "mongocxx_unit_test.h"
 #include "easy_mongocxx_wrapper.h"
 
-MongocxxUnitTest::MongocxxUnitTest(std::string	__collection_name)
+#ifndef verify
+#  define verify(x) MONGO_verify(x)
+#endif
+
+
+MongocxxUnitTest::MongocxxUnitTest(std::string	__collection)
+	:MongocxxUnit(__collection)
 {
-	collection_name_ = __collection_name;
+	
 }
 
 MongocxxUnitTest::~MongocxxUnitTest()
@@ -32,12 +38,40 @@ MongocxxUnitTest::~MongocxxUnitTest()
 
 }
 
-void MongocxxUnitTest::init()
+void MongocxxUnitTest::test()
 {
-	
-}
-
-void MongocxxUnitTest::save()
-{
-	easy::MongocxxWrapper::instance();
+	//	test mongo code begin
+	easy::MongocxxWrapper::instance()->db_client_connection().dropCollection(collection_);
+	// clean up old data from any previous tests
+	easy::MongocxxWrapper::instance()->db_client_connection().remove( collection_, mongo::BSONObj() );
+	verify( easy::MongocxxWrapper::instance()->db_client_connection().findOne( collection_ , mongo::BSONObj() ).isEmpty() );
+	// test insert
+	easy::MongocxxWrapper::instance()->db_client_connection().insert( collection_ ,BSON( "name" << "eliot" << "num" << 1 ) );
+	// test remove
+	easy::MongocxxWrapper::instance()->db_client_connection().remove( collection_, mongo::BSONObj() );
+	verify( easy::MongocxxWrapper::instance()->db_client_connection().findOne( collection_ , mongo::BSONObj() ).isEmpty() );
+	// insert, findOne testing
+	easy::MongocxxWrapper::instance()->db_client_connection().insert( collection_ , BSON( "name" << "eliot" << "num" << 1 ) );
+	{
+		mongo::BSONObj __res = easy::MongocxxWrapper::instance()->db_client_connection().findOne( collection_ , mongo::BSONObj() );
+		const char* __name = __res.getStringField( "name" );
+		verify( strstr(__name , "eliot") );
+		const char* __name2 = __res.getStringField( "name2" );
+		verify( !strstr(__name2 , "eliot") );
+		verify( 1 == __res.getIntField( "num" ) );
+	}
+	// cursor
+	easy::MongocxxWrapper::instance()->db_client_connection().insert( collection_ ,BSON( "name" << "sara" << "num" << 2 ) );
+	{
+		std::auto_ptr<mongo::DBClientCursor> __cursor = easy::MongocxxWrapper::instance()->db_client_connection().query( collection_ , mongo::BSONObj() );
+		int __count = 0;
+		while ( __cursor->more() ) {
+			__count++;
+			mongo::BSONObj __obj = __cursor->next();
+		}
+		verify( __count == 2 );
+	}
+	//	test mongo code end
+	easy::MongocxxWrapper::instance()->db_client_connection().insert( collection_ ,BSON( "lee" << "lee" ) );
+	printf("mongo cxx test\n");
 }

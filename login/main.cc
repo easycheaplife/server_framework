@@ -37,7 +37,7 @@ int main(int __arg_num,char** args)
 	//__mongoc_unit_test.save();
 
 	MongocxxUnitTest __mongocxx_unit_test;
-	__mongocxx_unit_test.save();
+	__mongocxx_unit_test.test();
 
 	char* __host = args[1];
 	unsigned int __port = atoi(args[2]);
