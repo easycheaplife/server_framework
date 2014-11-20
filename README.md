@@ -14,8 +14,8 @@ ready:
 build:
 ---
 #####windwos
-use windwos command tools:VS2012 x64 Cross Tools Command Prompt
-cmake -G "Visual Studio 11 Win64" .
+use windwos command tools:VS2012 x64 Cross Tools Command Prompt <br>
+cmake -G "Visual Studio 11 Win64" . <br>
 msbuild.exe ALL_BUILD.vcxproj
 
 #####linux
