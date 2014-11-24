@@ -28,7 +28,7 @@
 #include "easy_dump.h"
 #endif // __LINUX
 
-Login::Login(const char* __host /*= "0.0.0.0"*/,unsigned int __port /*= 9876*/ )
+Login::Login(const easy_char* __host /*= "0.0.0.0"*/,easy_uint32 __port /*= 9876*/ )
 	: Server_Impl(Reactor::instance(),__host,__port),host_(__host),port_(__port)
 {
 #ifdef __LINUX
@@ -47,11 +47,11 @@ Login::~Login()
 
 int Login::event_loop()
 {
-	static const int __max_time_out = 5000*1000;
+	static const easy_int32 __max_time_out = 5000*1000;
 	return Reactor::instance()->event_loop(__max_time_out);
 }
 
-int Login::handle_packet( int __fd,unsigned int __packet_id,const std::string& __string_packet )
+easy_int32 Login::handle_packet( easy_int32 __fd,easy_uint32 __packet_id,const std::string& __string_packet )
 {
 	packet_handle_->handle_packet(__fd,__packet_id,__string_packet);
 	return 0;

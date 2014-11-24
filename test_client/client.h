@@ -28,13 +28,13 @@ class Packet_Handle;
 class Client : public Client_Impl
 {
 public:
-	Client(const char* __host,unsigned int __port = 9876);
+	Client(const easy_char* __host,easy_uint32 __port = 9876);
 
 	~Client();
 
-	virtual int handle_packet(int __fd,unsigned int __packet_id,const std::string& __string_packet);
+	virtual easy_int32 handle_packet(easy_int32 __fd,easy_uint32 __packet_id,const std::string& __string_packet);
 
-	int event_loop(unsigned long __millisecond);
+	easy_int32 event_loop(easy_ulong __millisecond);
 
 private:
 	Packet_Handle*  packet_handle_;

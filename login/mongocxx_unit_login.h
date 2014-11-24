@@ -23,6 +23,7 @@
 #define mongocxx_unit_login_h__
 
 #include "easy_mongocxx_unit.h"
+#include "easy_base_type.h"
 
 class MongocxxUnitLogin : public easy::MongocxxUnit{
 public:

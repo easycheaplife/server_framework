@@ -25,20 +25,20 @@
 #include "client.h"
 #include "login.pb.h"
 #include "msg.h"
-int main(int __arg_num,char** args)
+easy_int32 main(easy_int32 __arg_num,easy_char** args)
 {
 	if(3 != __arg_num)
 	{
 		printf("param error,please input correct param! for example: nohup ./transform 192.168.22.63 9876 & \n");
 		exit(1);
 	}
-	char* __host = args[1];
-	unsigned int __port = atoi(args[2]);
+	easy_char* __host = args[1];
+	easy_uint32 __port = atoi(args[2]);
 	Client* __client_impl = new Client(__host,__port);
-	static const int __max_time_out = 5000*1000;
+	static const easy_int32 __max_time_out = 5000*1000;
 	//	test code begin
-	unsigned int __head = 0;
-	int __pakcet_id = MSG_C2L_LOGIN;
+	easy_uint32 __head = 0;
+	easy_int32 __pakcet_id = MSG_C2L_LOGIN;
 	login::c2l_login __c2l_login;
 	__c2l_login.set_user_name("lee");
 	__c2l_login.set_user_pwd("lee");
@@ -46,7 +46,7 @@ int main(int __arg_num,char** args)
 	__c2l_login.SerializeToString(&__string_login);
 	__head |= (__pakcet_id << 16);
 	__head |= (__string_login.length());
-	__client_impl->write((const char*)&__head,sizeof(unsigned int));
+	__client_impl->write((const easy_char*)&__head,sizeof(easy_uint32));
 	__client_impl->write(__string_login);
 	//	test code end
 	__client_impl->event_loop(__max_time_out);

@@ -24,7 +24,7 @@
 #include "mongocxx_unit_test.h"
 #include "login.h"
 
-int main(int __arg_num,char** args)
+easy_int32 main(easy_int32 __arg_num,easy_char** args)
 {
 	if(3 != __arg_num)
 	{
@@ -39,8 +39,8 @@ int main(int __arg_num,char** args)
 	MongocxxUnitTest __mongocxx_unit_test;
 	__mongocxx_unit_test.test();
 
-	char* __host = args[1];
-	unsigned int __port = atoi(args[2]);
+	easy_char* __host = args[1];
+	easy_uint32 __port = atoi(args[2]);
 	Login __login_srv(__host,__port);
 	__login_srv.event_loop();
 	return 0;

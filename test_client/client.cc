@@ -25,12 +25,12 @@
 #include "login.pb.h"
 #include "client_packet_handle.h"
 
-int Client::handle_packet( int __fd,unsigned int __packet_id,const std::string& __string_packet )
+int Client::handle_packet( easy_int32 __fd,easy_uint32 __packet_id,const std::string& __string_packet )
 {
 	return packet_handle_->handle_packet(__fd,__packet_id,__string_packet);
 }
 
-Client::Client( const char* __host,unsigned int __port ) : Client_Impl(Reactor::instance(),__host,__port) 
+Client::Client( const easy_char* __host,easy_uint32 __port ) : Client_Impl(Reactor::instance(),__host,__port) 
 {
 	packet_handle_ = new Client_Packet_Handle(this);
 }
@@ -40,7 +40,7 @@ Client::~Client()
 
 }
 
-int Client::event_loop( unsigned long __millisecond )
+int Client::event_loop( easy_ulong __millisecond )
 {
 	return Reactor::instance()->event_loop(__millisecond);
 }

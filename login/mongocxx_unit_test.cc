@@ -54,9 +54,9 @@ void MongocxxUnitTest::test()
 	easy::MongocxxWrapper::instance()->db_client_connection().insert( collection_ , BSON( "name" << "eliot" << "num" << 1 ) );
 	{
 		mongo::BSONObj __res = easy::MongocxxWrapper::instance()->db_client_connection().findOne( collection_ , mongo::BSONObj() );
-		const char* __name = __res.getStringField( "name" );
+		const easy_char* __name = __res.getStringField( "name" );
 		verify( strstr(__name , "eliot") );
-		const char* __name2 = __res.getStringField( "name2" );
+		const easy_char* __name2 = __res.getStringField( "name2" );
 		verify( !strstr(__name2 , "eliot") );
 		verify( 1 == __res.getIntField( "num" ) );
 	}
@@ -64,7 +64,7 @@ void MongocxxUnitTest::test()
 	easy::MongocxxWrapper::instance()->db_client_connection().insert( collection_ ,BSON( "name" << "sara" << "num" << 2 ) );
 	{
 		std::auto_ptr<mongo::DBClientCursor> __cursor = easy::MongocxxWrapper::instance()->db_client_connection().query( collection_ , mongo::BSONObj() );
-		int __count = 0;
+		easy_int32 __count = 0;
 		while ( __cursor->more() ) {
 			__count++;
 			mongo::BSONObj __obj = __cursor->next();

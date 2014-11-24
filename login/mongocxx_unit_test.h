@@ -22,6 +22,7 @@
 #ifndef mongocxx_unit_test_h__
 #define mongocxx_unit_test_h__
 #include "easy_mongocxx_unit.h"
+#include "easy_base_type.h"
 
 class MongocxxUnitTest : public easy::MongocxxUnit
 {

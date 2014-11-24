@@ -22,6 +22,7 @@
 #ifndef mongoc_unit_test_h__
 #define mongoc_unit_test_h__
 #include "easy_mongoc_unit.h"
+#include "easy_base_type.h"
 #include <bson.h>
 #include <string>
 class MongocUnitTest : public easy::MongocUnit{

@@ -23,6 +23,7 @@
 #define mongoc_unit_login_h__
 
 #include "easy_mongoc_unit.h"
+#include "easy_base_type.h"
 #include <bson.h>
 #include <string>
 
@@ -34,7 +35,7 @@ public:
 
 	void init();
 
-	bool query(std::string& __user_name, std::string& __user_pwd);
+	easy_bool query(std::string& __user_name, std::string& __user_pwd);
 
 	void save();
 private:

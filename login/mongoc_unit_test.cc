@@ -40,7 +40,7 @@ void MongocUnitTest::init()
 	bson_t* __query = bson_new ();
 	bson_init (__query);
 	mongoc_cursor_t* __cursor = easy::MongocWrapper::instance()->collection_find(collection_name_.c_str(),__query);
-	char* __str = NULL;
+	easy_char* __str = NULL;
 #ifdef WIN32
 	while (mongoc_cursor_next (__cursor, (const bson_t**)&doc_)) {
 #else

@@ -39,7 +39,7 @@ bool MongocxxUnitLogin::query( std::string& __user_name, std::string& __user_pwd
 	while (__cursor->more())
 	{
 		mongo::BSONObj __res = __cursor->next();
-		const char* __pwd = __res.getStringField( __user_name ); 
+		const easy_char* __pwd = __res.getStringField( __user_name ); 
 		if (__user_pwd == __pwd)
 		{
 			return true;

@@ -28,18 +28,18 @@ class Packet_Handle;
 class Login : public Server_Impl
 {
 public:
-	Login(const char* __host = "0.0.0.0",unsigned int __port = 9876);
+	Login(const easy_char* __host = "0.0.0.0",easy_uint32 __port = 9876);
 
     ~Login();
 
-	virtual int handle_packet(int __fd,unsigned int __packet_id,const std::string& __string_packet);
+	virtual easy_int32 handle_packet(easy_int32 __fd,easy_uint32 __packet_id,const std::string& __string_packet);
 
-	int event_loop();
+	easy_int32 event_loop();
 private:
 
-	const char*		host_;
+	const easy_char*		host_;
 
-	unsigned int	port_; 
+	easy_uint32	port_; 
 
 	Packet_Handle*  packet_handle_;
 };

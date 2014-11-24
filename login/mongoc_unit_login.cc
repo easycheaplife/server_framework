@@ -46,7 +46,7 @@ void MongocUnitLogin::save()
 
 }
 
-bool MongocUnitLogin::query( std::string& __user_name, std::string& __user_pwd )
+easy_bool MongocUnitLogin::query( std::string& __user_name, std::string& __user_pwd )
 {
 	//	find a doc
 	doc_ = bson_new ();
@@ -54,7 +54,7 @@ bool MongocUnitLogin::query( std::string& __user_name, std::string& __user_pwd )
 	bson_init (__query);
 	BSON_APPEND_UTF8 (__query, __user_name.c_str(), __user_pwd.c_str());
 	mongoc_cursor_t* __cursor = easy::MongocWrapper::instance()->collection_find(collection_name_.c_str(),__query);
-	char* __str = NULL;
+	easy_char* __str = NULL;
 #ifdef WIN32
 	while (mongoc_cursor_next (__cursor, (const bson_t**)&doc_)) {
 #else
