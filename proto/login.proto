@@ -1,11 +1,13 @@
 package login;
 
 message c2l_login {
+  required int32 msg_id = 1;
   required string user_name = 2;   
   required string user_pwd = 3;   
 }
 
 message l2c_login {
-	required int32 status = 1;  
+	required int32 msg_id = 4;
+	required int32 status = 5;  
 }
 

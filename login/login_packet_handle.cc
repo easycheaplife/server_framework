@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /****************************************************************************
  Copyright (c) 2013-2014 King Lee
 
@@ -51,6 +52,61 @@ int Login_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __pack
 			}
 		}
 		break;
+=======
+/****************************************************************************
+ Copyright (c) 2013-2014 King Lee
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ****************************************************************************/
+#include "login_packet_handle.h"
+#include "login.pb.h"
+#include "mongocxx_unit_login.h"
+#include "msg.h"
+#include "event_handle.h"
+
+int Login_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packet )
+{
+	login::c2l_login __packet_c2l;
+	__packet_c2l.ParseFromString(__packet);
+	easy_int32 __msg_id = __packet_c2l.msg_id();
+	switch (__msg_id)
+	{
+	case MSG_C2L_LOGIN: 
+		{
+			std::string __user_name = __packet_c2l.user_name();
+			std::string __user_pwd = __packet_c2l.user_pwd();
+			MongocxxUnitLogin __mongocxx_unit_login;
+			easy_bool __success = __mongocxx_unit_login.query(__user_name,__user_pwd);
+			if(__success){
+				login::l2c_login __packet_l2c_login;
+				__packet_l2c_login.set_msg_id(MSG_L2C_LOGIN);
+				__packet_l2c_login.set_status(LOGIN_STATUS_OK);
+				std::string __string_login;
+				__packet_l2c_login.SerializeToString(&__string_login);
+				easy_uint16 __length = 0;
+				__length = __string_login.length();
+				event_handle_->write(__fd,(const easy_char*)&__length,sizeof(easy_uint16));
+				event_handle_->write(__fd,__string_login.c_str(),__string_login.length());
+			}
+		}
+		break;
+>>>>>>> e44c80c6175242ea848b2c805cb62cd2cfb4476f
 	default:
 		break;
 	}

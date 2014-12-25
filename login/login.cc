@@ -51,9 +51,19 @@ int Login::event_loop()
 	return Reactor::instance()->event_loop(__max_time_out);
 }
 
-easy_int32 Login::handle_packet( easy_int32 __fd,easy_uint32 __packet_id,const std::string& __string_packet )
+easy_int32 Login::handle_packet( easy_int32 __fd,const std::string& __string_packet )
 {
-	packet_handle_->handle_packet(__fd,__packet_id,__string_packet);
+	packet_handle_->handle_packet(__fd,__string_packet);
 	return 0;
+}
+
+void Login::connected( easy_int32 __fd )
+{
+
+}
+
+void Login::dis_connected( easy_int32 __fd )
+{
+
 }
 

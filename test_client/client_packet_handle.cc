@@ -25,14 +25,15 @@
 #include "event_handle.h"
 #include <stdio.h>
 
-int Client_Packet_Handle::handle_packet(easy_int32 __fd, easy_int32 __packet_id,const std::string& __packet )
+int Client_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packet )
 {
-	switch (__packet_id)
+	login::l2c_login __packet_l2c_login;
+	__packet_l2c_login.ParseFromString(__packet);
+	easy_int32 __msg_id = __packet_l2c_login.msg_id();
+	switch (__msg_id)
 	{
 	case MSG_L2C_LOGIN:
 		{
-			login::l2c_login __packet_l2c_login;
-			__packet_l2c_login.ParseFromString(__packet);
 			easy_int32 __status = __packet_l2c_login.status();
 			if (LOGIN_STATUS_OK == __status)
 			{
