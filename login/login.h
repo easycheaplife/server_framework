@@ -21,7 +21,7 @@
  ****************************************************************************/
 #ifndef login_h__
 #define login_h__
-#include "server_framework_impl.h"
+#include "server_impl.h"
 
 class Packet_Handle;
 
@@ -33,7 +33,11 @@ public:
     ~Login();
 
 	//	called at a packet to be handle
+	//	for protobuf
 	virtual easy_int32 handle_packet(easy_int32 __fd,const std::string& __string_packet);
+
+	//	for byte stream, it is the  default way;it use protobuf, just return it.
+	virtual easy_int32 handle_packet(easy_int32 __fd,const easy_char* __packet,easy_int32 __length) { return -1;}
 
 	//	called at a connection coming
 	virtual	void connected(easy_int32 __fd);
