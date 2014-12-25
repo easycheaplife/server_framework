@@ -32,7 +32,7 @@ public:
 
 	~Client();
 
-	virtual easy_int32 handle_packet(easy_int32 __fd,easy_uint32 __packet_id,const std::string& __string_packet);
+	virtual easy_int32 handle_packet(easy_int32 __fd,const std::string& __string_packet);
 
 	easy_int32 event_loop(easy_ulong __millisecond);
 

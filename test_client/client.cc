@@ -25,9 +25,9 @@
 #include "login.pb.h"
 #include "client_packet_handle.h"
 
-int Client::handle_packet( easy_int32 __fd,easy_uint32 __packet_id,const std::string& __string_packet )
+int Client::handle_packet( easy_int32 __fd,const std::string& __string_packet )
 {
-	return packet_handle_->handle_packet(__fd,__packet_id,__string_packet);
+	return packet_handle_->handle_packet(__fd,__string_packet);
 }
 
 Client::Client( const easy_char* __host,easy_uint32 __port ) : Client_Impl(Reactor::instance(),__host,__port) 

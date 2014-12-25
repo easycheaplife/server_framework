@@ -3,7 +3,7 @@
 
 enum 
 {
-	MSG_C2L_LOGIN = 0,
+	MSG_C2L_LOGIN = 1,
 	MSG_L2C_LOGIN
 };
 

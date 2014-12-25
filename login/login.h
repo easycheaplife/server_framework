@@ -32,7 +32,14 @@ public:
 
     ~Login();
 
-	virtual easy_int32 handle_packet(easy_int32 __fd,easy_uint32 __packet_id,const std::string& __string_packet);
+	//	called at a packet to be handle
+	virtual easy_int32 handle_packet(easy_int32 __fd,const std::string& __string_packet);
+
+	//	called at a connection coming
+	virtual	void connected(easy_int32 __fd);
+
+	//	called at a connection leaving
+	virtual	void dis_connected(easy_int32 __fd) ;
 
 	easy_int32 event_loop();
 private:

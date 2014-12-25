@@ -37,16 +37,16 @@ easy_int32 main(easy_int32 __arg_num,easy_char** args)
 	Client* __client_impl = new Client(__host,__port);
 	static const easy_int32 __max_time_out = 5000*1000;
 	//	test code begin
-	easy_uint32 __head = 0;
+	easy_uint16 __length = 0;
 	easy_int32 __pakcet_id = MSG_C2L_LOGIN;
 	login::c2l_login __c2l_login;
+	__c2l_login.set_msg_id(__pakcet_id);
 	__c2l_login.set_user_name("lee");
 	__c2l_login.set_user_pwd("lee");
 	std::string __string_login;
 	__c2l_login.SerializeToString(&__string_login);
-	__head |= (__pakcet_id << 16);
-	__head |= (__string_login.length());
-	__client_impl->write((const easy_char*)&__head,sizeof(easy_uint32));
+	__length = __string_login.length();
+	__client_impl->write((const easy_char*)&__length,sizeof(easy_uint16));
 	__client_impl->write(__string_login);
 	//	test code end
 	__client_impl->event_loop(__max_time_out);
