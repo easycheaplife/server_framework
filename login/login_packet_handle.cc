@@ -25,27 +25,28 @@
 #include "msg.h"
 #include "event_handle.h"
 
-int Login_Packet_Handle::handle_packet(easy_int32 __fd, easy_int32 __packet_id,const std::string& __packet )
+int Login_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packet )
 {
-	switch (__packet_id)
+	login::c2l_login __packet_c2l;
+	__packet_c2l.ParseFromString(__packet);
+	easy_int32 __msg_id = __packet_c2l.msg_id();
+	switch (__msg_id)
 	{
 	case MSG_C2L_LOGIN: 
 		{
-			login::c2l_login __packet_c2l_login;
-			__packet_c2l_login.ParseFromString(__packet);
-			std::string __user_name = __packet_c2l_login.user_name();
-			std::string __user_pwd = __packet_c2l_login.user_pwd();
+			std::string __user_name = __packet_c2l.user_name();
+			std::string __user_pwd = __packet_c2l.user_pwd();
 			MongocxxUnitLogin __mongocxx_unit_login;
 			easy_bool __success = __mongocxx_unit_login.query(__user_name,__user_pwd);
 			if(__success){
 				login::l2c_login __packet_l2c_login;
+				__packet_l2c_login.set_msg_id(MSG_L2C_LOGIN);
 				__packet_l2c_login.set_status(LOGIN_STATUS_OK);
 				std::string __string_login;
 				__packet_l2c_login.SerializeToString(&__string_login);
-				easy_uint32 __head = 0;
-				__head |= (MSG_L2C_LOGIN << 16);
-				__head |= (__string_login.length());
-				event_handle_->write(__fd,(const easy_char*)&__head,sizeof(easy_uint32));
+				easy_uint16 __length = 0;
+				__length = __string_login.length();
+				event_handle_->write(__fd,(const easy_char*)&__length,sizeof(easy_uint16));
 				event_handle_->write(__fd,__string_login.c_str(),__string_login.length());
 			}
 		}
