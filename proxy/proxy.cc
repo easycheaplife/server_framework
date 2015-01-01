@@ -23,6 +23,9 @@
 #include "proxy.h"
 #include "reactor.h"
 #include "proxy_packet_handle.h"
+#include "json_proxy.h"
+#include "easy_log.h"
+#include "proxy_client.h"
 
 #ifdef __LINUX
 #include "easy_dump.h"
@@ -38,6 +41,8 @@ Proxy::Proxy(const easy_char* __host /*= "0.0.0.0"*/,easy_uint32 __port /*= 9876
 	signal(SIGPIPE,SIG_IGN);
 #endif // __LINUX
 	packet_handle_ = new Proxy_Packet_Handle(this);
+	_load_json();
+	_connect_core();
 }
 
 Proxy::~Proxy()
@@ -60,11 +65,41 @@ easy_int32 Proxy::handle_packet( easy_int32 __fd,const std::string& __string_pac
 void Proxy::connected( easy_int32 __fd )
 {
 	//	some schedule algorithm for allocation one level.algorithm may be polling,wight,ip hash,response time and so on.
-
+	Proxy_Info* __proxy_info = JsonProxy::instance()->get_proxy_info();
+	if (__proxy_info)
+	{
+		fd_proxy_info_[__fd] = __proxy_info;
+	}
+	else
+	{
+		easy::EasyLog::SaveLog(JsonProxy::instance()->log_path().c_str(),\
+			easy::kErrors,"proxy config error, can not find suitable proxy!");
+	}
 }
 
 void Proxy::dis_connected( easy_int32 __fd )
 {
+	fd_proxy_info::iterator __find = fd_proxy_info_.find(__fd);
+	if (__find != fd_proxy_info_.end())
+	{
+		fd_proxy_info_.erase(__find);
+	}
+}
 
+void Proxy::_load_json()
+{
+	JsonProxy::instance();
+}
+
+void Proxy::_connect_core()
+{
+	proxy_list& __proxy_list = JsonProxy::instance()->get_proxy_list();
+	for (proxy_list::iterator __it = __proxy_list.begin(); __it != __proxy_list.end(); ++__it)
+	{
+		if(__it->second)
+		{
+			Proxy_client* __proxy_client = new Proxy_client(Reactor::instance(),__it->second->ip_.c_str(),__it->second->port_);
+		}
+	}
 }
 

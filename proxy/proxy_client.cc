@@ -19,54 +19,21 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef proxy_h__
-#define proxy_h__
-#include "server_impl.h"
 
-class  Packet_Handle;
-struct Proxy_Info;
+#include "proxy_client.h"
 
-class Proxy : public Server_Impl
+Proxy_client::Proxy_client( Reactor* __reactor,const easy_char* __host,easy_uint32 __port /*= 9876*/ )
+	: Client_Impl(__reactor,__host,__port)
 {
-public:
-	Proxy(const easy_char* __host = "0.0.0.0",easy_uint32 __port = 9876);
 
-    ~Proxy();
+}
 
-	//	called at a packet to be handle
-	//	for protobuf
-	virtual easy_int32 handle_packet(easy_int32 __fd,const std::string& __string_packet);
+easy_int32 Proxy_client::handle_packet( const easy_char* __packet,easy_int32 __length )
+{
+	return -1;
+}
 
-	//	for byte stream, it is the  default way;it use protobuf, just return it.
-	virtual easy_int32 handle_packet(easy_int32 __fd,const easy_char* __packet,easy_int32 __length) { return -1;}
+Proxy_client::~Proxy_client()
+{
 
-	//	called at a connection coming
-	virtual	void connected(easy_int32 __fd);
-
-	//	called at a connection leaving
-	virtual	void dis_connected(easy_int32 __fd);
-
-	virtual easy_bool is_proxy() { return true; }
-
-	easy_int32 event_loop();
-
-private:
-	//	load json file config
-	void _load_json();
-
-	//	connect core server by proxy config
-	void _connect_core();
-
-private:
-
-	const easy_char*		host_;
-
-	easy_uint32				port_; 
-
-	Packet_Handle*			packet_handle_;
-
-	//	keys is fd,value is proxy info.
-	typedef std::map<easy_int32,Proxy_Info*>	fd_proxy_info;
-	fd_proxy_info								fd_proxy_info_;
-};
-#endif // proxy_h__
+}
