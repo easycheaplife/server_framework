@@ -66,11 +66,11 @@ easy_int32 Proxy::handle_packet( easy_int32 __fd,const std::string& __string_pac
 easy_int32 Proxy::handle_packet(easy_int32 __fd,const easy_char* __packet,easy_int32 __length)
 {
 	//	dispatch and transform packet to special core server
-	if (fd_proxy_info_[__fd])
+	if (fd_core_info_[__fd])
 	{
-		if (fd_proxy_info_[__fd]->client_)
+		if (fd_core_info_[__fd]->client_)
 		{
-			fd_proxy_info_[__fd]->client_->write(__packet,__length);
+			fd_core_info_[__fd]->client_->write(__packet,__length);
 		}
 	}
 	return 0;
@@ -79,24 +79,24 @@ easy_int32 Proxy::handle_packet(easy_int32 __fd,const easy_char* __packet,easy_i
 void Proxy::connected( easy_int32 __fd )
 {
 	//	some schedule algorithm for allocation one level.algorithm may be polling,wight,ip hash,response time and so on.
-	Proxy_Info* __proxy_info = JsonProxy::instance()->get_proxy_info();
-	if (__proxy_info)
+	Core_Info* __core_info = JsonProxy::instance()->get_core_info();
+	if (__core_info)
 	{
-		fd_proxy_info_[__fd] = __proxy_info;
+		fd_core_info_[__fd] = __core_info;
 	}
 	else
 	{
 		easy::EasyLog::SaveLog(JsonProxy::instance()->log_path().c_str(),\
-			easy::kErrors,"proxy config error, can not find suitable proxy!");
+			easy::kErrors,"proxy config error, can not find suitable core!");
 	}
 }
 
 void Proxy::dis_connected( easy_int32 __fd )
 {
-	fd_proxy_info::iterator __find = fd_proxy_info_.find(__fd);
-	if (__find != fd_proxy_info_.end())
+	fd_core_info::iterator __find = fd_core_info_.find(__fd);
+	if (__find != fd_core_info_.end())
 	{
-		fd_proxy_info_.erase(__find);
+		fd_core_info_.erase(__find);
 	}
 }
 
@@ -107,8 +107,8 @@ void Proxy::_load_json()
 
 void Proxy::_connect_core()
 {
-	proxy_list& __proxy_list = JsonProxy::instance()->get_proxy_list();
-	for (proxy_list::iterator __it = __proxy_list.begin(); __it != __proxy_list.end(); ++__it)
+	core_list& __core_list = JsonProxy::instance()->get_core_list();
+	for (core_list::iterator __it = __core_list.begin(); __it != __core_list.end(); ++__it)
 	{
 		if(__it->second)
 		{

@@ -25,6 +25,7 @@
 
 class Packet_Handle;
 class Reactor;
+struct Proxy_Info;
 
 class Login : public Server_Impl
 {
@@ -47,6 +48,13 @@ public:
 	virtual	void dis_connected(easy_int32 __fd) ;
 
 	easy_int32 event_loop();
+
+private:
+	//	load json file config
+	void _load_json();
+
+	//	connect proxy server by proxy config
+	void _connect_proxy();
 private:
 
 	const easy_char*		host_;
@@ -57,5 +65,9 @@ private:
 
 	//	i/o multiplexing reactor
 	Reactor*				reactor_;
+
+	//	keys is fd,value is proxy info.
+	typedef std::map<easy_int32,Proxy_Info*>		fd_proxy_info;
+	fd_proxy_info									fd_proxy_info_;
 };
 #endif // login_h__

@@ -19,37 +19,37 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef json_proxy_h__
-#define json_proxy_h__
+#ifndef json_login_h__
+#define json_login_h__
 #include "json_base.h"
 #include "easy_base_type.h"
 #include <string>
 #include <map>
-class Proxy_client;
+class Login_client;
 
-struct Core_Info
+struct Proxy_Info
 {
 	std::string ip_;
 	easy_int64 port_;
 	easy_int64 wight_;
 	easy_int64 wight_begin_;
 	easy_int64 wight_end_;
-	Proxy_client* client_;
-	Core_Info():wight_(0),wight_begin_(0),wight_end_(0),client_(easy_null){}
+	Login_client* client_;
+	Proxy_Info():wight_(0),wight_begin_(0),wight_end_(0),client_(easy_null){}
 };
 
-typedef std::map<easy_int64,Core_Info*>			core_list;
+typedef std::map<easy_int64,Proxy_Info*>			proxy_list;
 
-class JsonProxy : public JsonBase
+class JsonLogin : public JsonBase
 {
 public:
 	
 
-	JsonProxy(const easy_char* __file_name);
+	JsonLogin(const easy_char* __file_name);
 
-	~JsonProxy();
+	~JsonLogin();
 
-	static JsonProxy* instance(const easy_char* __file_name = "../../config/proxy.json");
+	static JsonLogin* instance(const easy_char* __file_name = "../../config/login.json");
 
 	static void destroy();
 
@@ -60,16 +60,16 @@ public:
 	std::string& log_path() { return log_path_;}
 
 	//	get proxy information by wight
-	Core_Info* get_core_info();
+	Proxy_Info* get_proxy_info();
 
-	core_list& get_core_list() { return core_list_;}
+	proxy_list& get_proxy_list() { return proxy_list_;}
 private:
 	void _clear();
 
 private:
-	static JsonProxy* inst_;
+	static JsonLogin* inst_;
 
-	core_list	core_list_;
+	proxy_list	proxy_list_;
 
 	//	wight total
 	easy_int64	wight_total_;
@@ -78,4 +78,4 @@ private:
 	std::string log_path_;
 };
 
-#endif // json_proxy_h__
+#endif // json_login_h__

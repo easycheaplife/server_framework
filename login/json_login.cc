@@ -20,24 +20,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "json_proxy.h"
+#include "json_login.h"
 #include "easy_util.h"
 
 
-JsonProxy* JsonProxy::inst_ = easy_null;
-JsonProxy* JsonProxy::instance( const easy_char* __file_name )
+JsonLogin* JsonLogin::inst_ = easy_null;
+JsonLogin* JsonLogin::instance( const easy_char* __file_name )
 {
 	if(!inst_)
 	{
-		inst_ = new JsonProxy(__file_name); 
+		inst_ = new JsonLogin(__file_name); 
 	}
 	return inst_;
 }
 
-JsonProxy::JsonProxy(const easy_char* __file_name):JsonBase(__file_name),wight_total_(0)
+JsonLogin::JsonLogin(const easy_char* __file_name):JsonBase(__file_name),wight_total_(0)
 {
 	//	get the value of ip,host,wight,and so on
-	json_t* __json_core_array = json_object_get(json_load_, "core");
+	json_t* __json_core_array = json_object_get(json_load_, "proxy");
 	if (__json_core_array)
 	{
 		size_t __json_core_array_size = json_array_size(__json_core_array);
@@ -46,7 +46,7 @@ JsonProxy::JsonProxy(const easy_char* __file_name):JsonBase(__file_name),wight_t
 			json_t* __json_core_element = json_array_get(__json_core_array,__i);
 			if(__json_core_element)
 			{
-				Core_Info* __proxy_info = new Core_Info();
+				Proxy_Info* __proxy_info = new Proxy_Info();
 				json_t* __json_core_ip = json_object_get(__json_core_element,"ip");
 				const easy_char* __ip = json_string_value(__json_core_ip);
 				__proxy_info->ip_ = __ip;
@@ -59,7 +59,7 @@ JsonProxy::JsonProxy(const easy_char* __file_name):JsonBase(__file_name),wight_t
 				__proxy_info->wight_begin_ = wight_total_;
 				wight_total_ += __wight;
 				__proxy_info->wight_end_ = wight_total_;
-				core_list_[__port] = __proxy_info;
+				proxy_list_[__port] = __proxy_info;
 			}
 		}
 	}
@@ -68,7 +68,7 @@ JsonProxy::JsonProxy(const easy_char* __file_name):JsonBase(__file_name),wight_t
 	log_path_ = json_string_value(__json_log_path);
 }
 
-void JsonProxy::destroy()
+void JsonLogin::destroy()
 {
 	if(inst_)
 	{
@@ -77,9 +77,9 @@ void JsonProxy::destroy()
 	}
 }
 
-void JsonProxy::_clear()
+void JsonLogin::_clear()
 {
-	for (core_list::iterator __it = core_list_.begin(); __it != core_list_.end(); ++__it)
+	for (proxy_list::iterator __it = proxy_list_.begin(); __it != proxy_list_.end(); ++__it)
 	{
 		if(__it->second)
 		{
@@ -87,23 +87,23 @@ void JsonProxy::_clear()
 			__it->second = easy_null;
 		}
 	}
-	core_list_.clear();
+	proxy_list_.clear();
 }
 
-JsonProxy::~JsonProxy()
+JsonLogin::~JsonLogin()
 {
 	_clear();
 }
 
-Core_Info* JsonProxy::get_core_info()
+Proxy_Info* JsonLogin::get_proxy_info()
 {
-	easy_int64 __wight_total = JsonProxy::instance()->wight_total();
+	easy_int64 __wight_total = JsonLogin::instance()->wight_total();
 	if (0 == __wight_total)
 	{
 		return easy_null;
 	}
 	easy_int64 __random_val = easy::Util::random(__wight_total);
-	for (core_list::iterator __it = core_list_.begin(); __it != core_list_.end(); ++__it)
+	for (proxy_list::iterator __it = proxy_list_.begin(); __it != proxy_list_.end(); ++__it)
 	{
 		if (__it->second)
 		{
