@@ -30,7 +30,7 @@ int Client::handle_packet( easy_int32 __fd,const std::string& __string_packet )
 	return packet_handle_->handle_packet(__fd,__string_packet);
 }
 
-Client::Client( const easy_char* __host,easy_uint32 __port ) : Client_Impl(Reactor::instance(),__host,__port) 
+Client::Client( const easy_char* __host,easy_uint32 __port ) : Client_Impl((reactor_ = new Reactor()),__host,__port) 
 {
 	packet_handle_ = new Client_Packet_Handle(this);
 }
@@ -42,5 +42,5 @@ Client::~Client()
 
 int Client::event_loop( easy_ulong __millisecond )
 {
-	return Reactor::instance()->event_loop(__millisecond);
+	return reactor_->event_loop(__millisecond);
 }

@@ -29,7 +29,7 @@
 #endif // __LINUX
 
 Core::Core(const easy_char* __host /*= "0.0.0.0"*/,easy_uint32 __port /*= 9876*/ )
-	: Server_Impl(Reactor::instance(),__host,__port),host_(__host),port_(__port)
+	: Server_Impl((reactor_ = new Reactor),__host,__port),host_(__host),port_(__port)
 {
 #ifdef __LINUX
 	signal(SIGSEGV,dump);
@@ -42,13 +42,14 @@ Core::Core(const easy_char* __host /*= "0.0.0.0"*/,easy_uint32 __port /*= 9876*/
 
 Core::~Core()
 {
-	Reactor::destory();
+	delete reactor_;
+	reactor_ = easy_null;
 }
 
 int Core::event_loop()
 {
 	static const easy_int32 __max_time_out = 5000*1000;
-	return Reactor::instance()->event_loop(__max_time_out);
+	return reactor_->event_loop(__max_time_out);
 }
 
 easy_int32 Core::handle_packet( easy_int32 __fd,const std::string& __string_packet )

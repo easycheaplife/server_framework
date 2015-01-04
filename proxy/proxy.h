@@ -38,7 +38,7 @@ public:
 	virtual easy_int32 handle_packet(easy_int32 __fd,const std::string& __string_packet);
 
 	//	for byte stream, it is the  default way;it use protobuf, just return it.
-	virtual easy_int32 handle_packet(easy_int32 __fd,const easy_char* __packet,easy_int32 __length) { return -1;}
+	virtual easy_int32 handle_packet(easy_int32 __fd,const easy_char* __packet,easy_int32 __length);
 
 	//	called at a connection coming
 	virtual	void connected(easy_int32 __fd);
@@ -64,6 +64,9 @@ private:
 	easy_uint32				port_; 
 
 	Packet_Handle*			packet_handle_;
+
+	//	i/o multiplexing reactor
+	Reactor*				reactor_;
 
 	//	keys is fd,value is proxy info.
 	typedef std::map<easy_int32,Proxy_Info*>	fd_proxy_info;

@@ -24,6 +24,7 @@
 #include "server_impl.h"
 
 class Packet_Handle;
+class Reactor;
 
 class Core : public Server_Impl
 {
@@ -50,8 +51,11 @@ private:
 
 	const easy_char*		host_;
 
-	easy_uint32	port_; 
+	easy_uint32				port_; 
 
-	Packet_Handle*  packet_handle_;
+	Packet_Handle*			packet_handle_;
+
+	//	i/o multiplexing reactor
+	Reactor*				reactor_;
 };
 #endif // core_h__

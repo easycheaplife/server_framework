@@ -32,7 +32,7 @@
 #endif // __LINUX
 
 Proxy::Proxy(const easy_char* __host /*= "0.0.0.0"*/,easy_uint32 __port /*= 9876*/ )
-	: Server_Impl(Reactor::instance(),__host,__port),host_(__host),port_(__port)
+	: Server_Impl((reactor_ = new Reactor),__host,__port),host_(__host),port_(__port)
 {
 #ifdef __LINUX
 	signal(SIGSEGV,dump);
@@ -47,18 +47,32 @@ Proxy::Proxy(const easy_char* __host /*= "0.0.0.0"*/,easy_uint32 __port /*= 9876
 
 Proxy::~Proxy()
 {
-	Reactor::destory();
+	delete reactor_;
+	reactor_ = easy_null;
 }
 
 int Proxy::event_loop()
 {
 	static const easy_int32 __max_time_out = 5000*1000;
-	return Reactor::instance()->event_loop(__max_time_out);
+	return reactor_->event_loop(__max_time_out);
 }
 
 easy_int32 Proxy::handle_packet( easy_int32 __fd,const std::string& __string_packet )
 {
 	packet_handle_->handle_packet(__fd,__string_packet);
+	return 0;
+}
+
+easy_int32 Proxy::handle_packet(easy_int32 __fd,const easy_char* __packet,easy_int32 __length)
+{
+	//	dispatch and transform packet to special core server
+	if (fd_proxy_info_[__fd])
+	{
+		if (fd_proxy_info_[__fd]->client_)
+		{
+			fd_proxy_info_[__fd]->client_->write(__packet,__length);
+		}
+	}
 	return 0;
 }
 
@@ -98,7 +112,7 @@ void Proxy::_connect_core()
 	{
 		if(__it->second)
 		{
-			Proxy_client* __proxy_client = new Proxy_client(Reactor::instance(),__it->second->ip_.c_str(),__it->second->port_);
+			__it->second->client_ = new Proxy_client(new Reactor(),__it->second->ip_.c_str(),__it->second->port_);
 		}
 	}
 }

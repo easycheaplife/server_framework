@@ -38,5 +38,8 @@ public:
 
 private:
 	Packet_Handle*  packet_handle_;
+
+	//	i/o multiplexing reactor
+	Reactor*				reactor_;
 };
 #endif // client_h__

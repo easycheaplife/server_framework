@@ -24,6 +24,7 @@
 #include "server_impl.h"
 
 class Packet_Handle;
+class Reactor;
 
 class Login : public Server_Impl
 {
@@ -53,5 +54,8 @@ private:
 	easy_uint32	port_; 
 
 	Packet_Handle*  packet_handle_;
+
+	//	i/o multiplexing reactor
+	Reactor*				reactor_;
 };
 #endif // login_h__

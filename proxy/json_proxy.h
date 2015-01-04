@@ -25,6 +25,7 @@ THE SOFTWARE.
 #include "easy_base_type.h"
 #include <string>
 #include <map>
+class Proxy_client;
 
 struct Proxy_Info
 {
@@ -33,8 +34,8 @@ struct Proxy_Info
 	easy_int64 wight_;
 	easy_int64 wight_begin_;
 	easy_int64 wight_end_;
-	easy_int32 fd_;
-	Proxy_Info():wight_(0),wight_begin_(0),wight_end_(0),fd_(-1){}
+	Proxy_client* client_;
+	Proxy_Info():wight_(0),wight_begin_(0),wight_end_(0),client_(easy_null){}
 };
 
 typedef std::map<easy_int64,Proxy_Info*>			proxy_list;

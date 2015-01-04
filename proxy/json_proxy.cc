@@ -97,12 +97,17 @@ JsonProxy::~JsonProxy()
 
 Proxy_Info* JsonProxy::get_proxy_info()
 {
-	easy_int64 __random_val = easy::Util::random(JsonProxy::instance()->wight_total());
+	easy_int64 __wight_total = JsonProxy::instance()->wight_total();
+	if (0 == __wight_total)
+	{
+		return easy_null;
+	}
+	easy_int64 __random_val = easy::Util::random(__wight_total);
 	for (proxy_list::iterator __it = proxy_list_.begin(); __it != proxy_list_.end(); ++__it)
 	{
 		if (__it->second)
 		{
-			if(__random_val >= __it->second->wight_begin_ && __random_val >= __it->second->wight_end_)
+			if(__random_val >= __it->second->wight_begin_ && __random_val < __it->second->wight_end_)
 			{
 				return __it->second;
 			}
