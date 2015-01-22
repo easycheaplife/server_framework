@@ -7,7 +7,9 @@ message c2l_login {
 }
 
 message l2c_login {
-	required int32 msg_id = 4;
-	required int32 status = 5;  
+	required int32 msg_id = 1;
+	required int32 status = 2;  
+	required string proxy_ip = 3;
+	required int32 proxy_port = 4;
 }
 

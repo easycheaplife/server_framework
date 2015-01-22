@@ -19,28 +19,28 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include <stdlib.h>
-#include <stdio.h>
 #include "connector.h"
-#include "client.h"
+#include "reactor.h"
+#include "msg.h"
+#include "login.pb.h"
+#include "client_packet_handle.h"
 
-#include "easy_util.h"
-
-easy_int32 main(easy_int32 __arg_num,easy_char** args)
+int Connector::handle_packet( easy_int32 __fd,const std::string& __string_packet )
 {
-	if(3 != __arg_num)
-	{
-		printf("param error,please input correct param! for example: nohup ./transform 192.168.22.63 9876 & \n");
-		exit(1);
-	}
-	easy_char* __host = args[1];
-	easy_uint32 __port = atoi(args[2]);
-	Client::instance()->connect_login(__host,__port);
-	Client::instance()->send_login_msg();
-	static const easy_int32 __max_time_out = 5000*1000;
-	while(true)
-	{
-		easy::Util::sleep(__max_time_out);
-	}
-	return 0;
+	return packet_handle_->handle_packet(__fd,__string_packet);
+}
+
+Connector::Connector( const easy_char* __host,easy_uint32 __port ) : Client_Impl((reactor_ = new Reactor()),__host,__port) 
+{
+	packet_handle_ = new Client_Packet_Handle(this);
+}
+
+Connector::~Connector()
+{
+
+}
+
+int Connector::event_loop( easy_ulong __millisecond )
+{
+	return reactor_->event_loop(__millisecond);
 }

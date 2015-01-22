@@ -78,6 +78,7 @@ easy_int32 Proxy::handle_packet(easy_int32 __fd,const easy_char* __packet,easy_i
 
 void Proxy::connected( easy_int32 __fd )
 {
+
 	//	some schedule algorithm for allocation one level.algorithm may be polling,wight,ip hash,response time and so on.
 	Core_Info* __core_info = JsonProxy::instance()->get_core_info();
 	if (__core_info)

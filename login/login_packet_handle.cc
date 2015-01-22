@@ -24,6 +24,7 @@
 #include "mongocxx_unit_login.h"
 #include "msg.h"
 #include "event_handle.h"
+#include "json_login.h"
 
 int Login_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packet )
 {
@@ -42,6 +43,12 @@ int Login_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __pack
 				login::l2c_login __packet_l2c_login;
 				__packet_l2c_login.set_msg_id(MSG_L2C_LOGIN);
 				__packet_l2c_login.set_status(LOGIN_STATUS_OK);
+				Proxy_Info* __proxy_info = JsonLogin::instance()->get_proxy_info();
+				if (__proxy_info)
+				{
+					__packet_l2c_login.set_proxy_ip(__proxy_info->ip_);
+					__packet_l2c_login.set_proxy_port(__proxy_info->port_);
+				}
 				std::string __string_login;
 				__packet_l2c_login.SerializeToString(&__string_login);
 				easy_uint16 __length = 0;

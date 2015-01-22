@@ -19,28 +19,28 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include <stdlib.h>
-#include <stdio.h>
-#include "connector.h"
-#include "client.h"
+#ifndef connector_h__
+#define connector_h__
 
-#include "easy_util.h"
+#include "client_protobuf_impl.h"
 
-easy_int32 main(easy_int32 __arg_num,easy_char** args)
+class Packet_Handle;
+
+class Connector : public Client_Impl
 {
-	if(3 != __arg_num)
-	{
-		printf("param error,please input correct param! for example: nohup ./transform 192.168.22.63 9876 & \n");
-		exit(1);
-	}
-	easy_char* __host = args[1];
-	easy_uint32 __port = atoi(args[2]);
-	Client::instance()->connect_login(__host,__port);
-	Client::instance()->send_login_msg();
-	static const easy_int32 __max_time_out = 5000*1000;
-	while(true)
-	{
-		easy::Util::sleep(__max_time_out);
-	}
-	return 0;
-}
+public:
+	Connector(const easy_char* __host,easy_uint32 __port = 9876);
+
+	~Connector();
+
+	virtual easy_int32 handle_packet(easy_int32 __fd,const std::string& __string_packet);
+
+	easy_int32 event_loop(easy_ulong __millisecond);
+
+private:
+	Packet_Handle*  packet_handle_;
+
+	//	i/o multiplexing reactor
+	Reactor*				reactor_;
+};
+#endif // connector_h__

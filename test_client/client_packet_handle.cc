@@ -19,11 +19,12 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#include <stdio.h>
 #include "client_packet_handle.h"
 #include "login.pb.h"
 #include "msg.h"
 #include "event_handle.h"
-#include <stdio.h>
+#include "client.h"
 
 int Client_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packet )
 {
@@ -37,7 +38,10 @@ int Client_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __pac
 			easy_int32 __status = __packet_l2c_login.status();
 			if (LOGIN_STATUS_OK == __status)
 			{
-				printf("login ok\n");
+				printf("login ok,ready for connect proxy ip:%s,port:%d\n",__packet_l2c_login.proxy_ip().c_str(),__packet_l2c_login.proxy_port());
+				Client::instance()->connect_proxy(__packet_l2c_login.proxy_ip().c_str(),__packet_l2c_login.proxy_port());
+				//	for test 
+				Client::instance()->send_test_msg();
 			}
 			else
 			{
