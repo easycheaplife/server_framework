@@ -9,3 +9,5 @@ xcopy  /e /y  c:\local\boost_1_53_0\lib64-msvc-11.0\boost_date_time-vc110-mt-gd-
 xcopy  /e /y  c:\local\boost_1_53_0\lib64-msvc-11.0\boost_thread-vc110-mt-gd-1_53.dll %cd%\bin\Debug
 xcopy  /e /y  c:\local\boost_1_53_0\lib64-msvc-11.0\boost_system-vc110-mt-gd-1_53.dll %cd%\bin\Debug
 xcopy  /e /y  c:\local\boost_1_53_0\lib64-msvc-11.0\boost_regex-vc110-mt-gd-1_53.dll %cd%\bin\Debug
+md 			  %cd%\bin\Debug\config
+xcopy  /e /y  %cd%\config %cd%\bin\Debug\config

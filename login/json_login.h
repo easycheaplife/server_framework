@@ -49,7 +49,7 @@ public:
 
 	~JsonLogin();
 
-	static JsonLogin* instance(const easy_char* __file_name = "../../config/login.json");
+	static JsonLogin* instance(const easy_char* __file_name = "./config/login.json");
 
 	static void destroy();
 

@@ -49,7 +49,7 @@ public:
 
 	~JsonProxy();
 
-	static JsonProxy* instance(const easy_char* __file_name = "../../config/proxy.json");
+	static JsonProxy* instance(const easy_char* __file_name = "./config/proxy.json");
 
 	static void destroy();
 
