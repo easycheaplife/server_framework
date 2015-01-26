@@ -23,15 +23,16 @@
 #include "client_packet_handle.h"
 #include "login.pb.h"
 #include "transfer.pb.h"
+#include "common.pb.h"
 #include "msg.h"
 #include "event_handle.h"
 #include "client.h"
 
 int Client_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packet )
 {
-	login::l2c_head __packet_l2c_head;
-	__packet_l2c_head.ParseFromString(__packet);
-	easy_int32 __msg_id =__packet_l2c_head.msg_id();
+	common::common_head __packet_head;
+	__packet_head.ParseFromString(__packet);
+	easy_int32 __msg_id =__packet_head.msg_id();
 	switch (__msg_id)
 	{
 	case MSG_L2C_LOGIN:

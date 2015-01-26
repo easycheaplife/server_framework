@@ -21,6 +21,7 @@
  ****************************************************************************/
 #include "login_packet_handle.h"
 #include "login.pb.h"
+#include "common.pb.h"
 #include "mongocxx_unit_login.h"
 #include "msg.h"
 #include "event_handle.h"
@@ -28,13 +29,15 @@
 
 int Login_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packet )
 {
-	login::c2l_login __packet_c2l;
-	__packet_c2l.ParseFromString(__packet);
-	easy_int32 __msg_id = __packet_c2l.msg_id();
+	common::common_head __packet_head;
+	__packet_head.ParseFromString(__packet);
+	easy_int32 __msg_id =__packet_head.msg_id();
 	switch (__msg_id)
 	{
 	case MSG_C2L_LOGIN: 
 		{
+			login::c2l_login __packet_c2l;
+			__packet_c2l.ParseFromString(__packet);
 			std::string __user_name = __packet_c2l.user_name();
 			std::string __user_pwd = __packet_c2l.user_pwd();
 			MongocxxUnitLogin __mongocxx_unit_login;

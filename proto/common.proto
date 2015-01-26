@@ -1,0 +1,5 @@
+package common;
+
+message common_head {
+	required int32 msg_id = 1;
+}
