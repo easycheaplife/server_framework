@@ -47,6 +47,8 @@ public:
 	//	called at a connection leaving
 	virtual	void dis_connected(easy_int32 __fd) ;
 
+	virtual easy_bool is_login() { return true; }
+
 	easy_int32 event_loop();
 
 private:

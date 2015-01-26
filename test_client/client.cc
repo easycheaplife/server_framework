@@ -2,6 +2,7 @@
 #include "connector.h"
 #include "easy_base_type.h"
 #include "login.pb.h"
+#include "transfer.pb.h"
 #include "msg.h"
 #include "easy_time.h"
 #include "easy_byte_buffer.h"
@@ -14,6 +15,7 @@ Client::Client()
 	connector_proxy_ = easy_null;
 	proxy_port_ = 0;
 	login_port_ = 0;
+	srand(easy::EasyTime::get_cur_sys_time());
 }
 
 Client::~Client()
@@ -65,7 +67,7 @@ easy_bool Client::connect_proxy( const easy_char* __host, easy_uint32 __port )
 
 void Client::send_login_msg()
 {
-	easy_uint16 __length = 0;
+	easy_uint32 __length = 0;
 	easy_int32 __pakcet_id = MSG_C2L_LOGIN;
 	login::c2l_login __c2l_login;
 	__c2l_login.set_msg_id(__pakcet_id);
@@ -74,7 +76,7 @@ void Client::send_login_msg()
 	std::string __string_login;
 	__c2l_login.SerializeToString(&__string_login);
 	__length = __string_login.length();
-	connector_login_->write((const easy_char*)&__length,sizeof(easy_uint16));
+	connector_login_->write((const easy_char*)&__length,sizeof(easy_uint32));
 	connector_login_->write(__string_login);
 }
 
@@ -106,22 +108,19 @@ void Client::send_test_msg()
 		"The bird wishes it were a cloud.The cloud wishes it were a bird."
 	};
 
-	static int __random_string_size = 22;
-	srand(easy::EasyTime::get_cur_sys_time());
-	int __random_index = rand()%__random_string_size;
+	static easy_int32 __random_string_size = 22;
+	static const easy_int32 __packet_head_size = sizeof(easy_uint32);
+	static const easy_int32 __buf_size = 256;
+	easy_char __send_buf[__buf_size] = {};
+	transfer::Packet __packet_protobuf;
+	std::string __string_packet;
+	easy_int32 __random_index = rand()%__random_string_size;
 	std::string __context = __random_string[__random_index];
-	unsigned short __length = __context.size();
-	static const easy_int32 __head_size = sizeof(easy_uint16);
-#if 0
-	static const int __data_length = 256;
-	unsigned char __data[__data_length] = {};
-	memcpy(__data,&__length,__head_size);
-	memcpy(__data + __head_size,__context.c_str(),__length);
-	connector_proxy_->write((char*)__data,__length + __head_size);
-#else
-	easy::EasyByteBuffer	__byte_buffer;
-	__byte_buffer << __length;
-	__byte_buffer << __context;
-	connector_proxy_->write((char*)__byte_buffer.contents(),__byte_buffer.size());
-#endif
+	__packet_protobuf.set_msg_id(MSG_C2S2C_TEST);
+	__packet_protobuf.set_content(__random_string[__random_index]);
+	__packet_protobuf.SerializeToString(&__string_packet);
+	easy_uint32 __length = __string_packet.length();
+	memcpy(__send_buf,(void*)&__length,__packet_head_size);
+	strcpy(__send_buf + __packet_head_size,__string_packet.c_str());
+	connector_proxy_->write((easy_char*)__send_buf,__packet_head_size + __length);
 }

@@ -22,19 +22,22 @@
 #include <stdio.h>
 #include "client_packet_handle.h"
 #include "login.pb.h"
+#include "transfer.pb.h"
 #include "msg.h"
 #include "event_handle.h"
 #include "client.h"
 
 int Client_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packet )
 {
-	login::l2c_login __packet_l2c_login;
-	__packet_l2c_login.ParseFromString(__packet);
-	easy_int32 __msg_id = __packet_l2c_login.msg_id();
+	login::l2c_head __packet_l2c_head;
+	__packet_l2c_head.ParseFromString(__packet);
+	easy_int32 __msg_id =__packet_l2c_head.msg_id();
 	switch (__msg_id)
 	{
 	case MSG_L2C_LOGIN:
 		{
+			login::l2c_login __packet_l2c_login;
+			__packet_l2c_login.ParseFromString(__packet);
 			easy_int32 __status = __packet_l2c_login.status();
 			if (LOGIN_STATUS_OK == __status)
 			{
@@ -47,6 +50,14 @@ int Client_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __pac
 			{
 				printf("login error\n");
 			}
+		}
+		break;
+	case MSG_C2S2C_TEST:
+		{
+			transfer::Packet __s2c_packet;
+			__s2c_packet.ParseFromString(__packet);
+			printf("%s\n",__s2c_packet.content().c_str());
+			Client::instance()->send_test_msg();
 		}
 		break;
 	default:

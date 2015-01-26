@@ -21,14 +21,16 @@
  ****************************************************************************/
 #ifndef proxy_client_h__
 #define proxy_client_h__
-#include "client_impl.h"
+#include "client_protobuf_impl.h"
 
 class Proxy_client : public Client_Impl
 {
 public:
 	Proxy_client(Reactor* __reactor,const easy_char* __host,easy_uint32 __port = 9876);
 
-	easy_int32 handle_packet(const easy_char* __packet,easy_int32 __length);
+	virtual easy_bool is_proxy_client() { return true; }
+
+	easy_int32 handle_packet(easy_int32 __fd,const std::string& __string_packet);
 
 	~Proxy_client();
 };

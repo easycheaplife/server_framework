@@ -51,9 +51,9 @@ int Login_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __pack
 				}
 				std::string __string_login;
 				__packet_l2c_login.SerializeToString(&__string_login);
-				easy_uint16 __length = 0;
+				easy_uint32 __length = 0;
 				__length = __string_login.length();
-				event_handle_->write(__fd,(const easy_char*)&__length,sizeof(easy_uint16));
+				event_handle_->write(__fd,(const easy_char*)&__length,sizeof(easy_uint32));
 				event_handle_->write(__fd,__string_login.c_str(),__string_login.length());
 			}
 		}

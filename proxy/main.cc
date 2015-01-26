@@ -31,7 +31,7 @@ easy_int32 main(easy_int32 __arg_num,easy_char** args)
 
 	easy_char* __host = args[1];
 	easy_uint32 __port = atoi(args[2]);
-	Proxy __proxy_srv(__host,__port);
-	__proxy_srv.event_loop();
+	Proxy::instance(__host,__port);
+	Proxy::instance()->event_loop();
 	return 0;
 }

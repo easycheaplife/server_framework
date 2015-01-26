@@ -21,6 +21,7 @@
  ****************************************************************************/
 
 #include "proxy_client.h"
+#include "proxy.h"
 
 Proxy_client::Proxy_client( Reactor* __reactor,const easy_char* __host,easy_uint32 __port /*= 9876*/ )
 	: Client_Impl(__reactor,__host,__port)
@@ -28,8 +29,11 @@ Proxy_client::Proxy_client( Reactor* __reactor,const easy_char* __host,easy_uint
 
 }
 
-easy_int32 Proxy_client::handle_packet( const easy_char* __packet,easy_int32 __length )
+easy_int32 Proxy_client::handle_packet( easy_int32 __fd,const std::string& __string_packet )
 {
+	easy_uint32 __packet_length = __string_packet.length();
+	Proxy::instance()->send_packet(__fd,(easy_char*)&__packet_length,sizeof(__packet_length));
+	Proxy::instance()->send_packet(__fd,__string_packet.c_str(),__packet_length);
 	return -1;
 }
 

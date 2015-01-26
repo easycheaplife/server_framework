@@ -31,6 +31,7 @@
 #include "easy_dump.h"
 #endif // __LINUX
 
+Proxy* Proxy::inst_ = easy_null;
 Proxy::Proxy(const easy_char* __host /*= "0.0.0.0"*/,easy_uint32 __port /*= 9876*/ )
 	: Server_Impl((reactor_ = new Reactor),__host,__port),host_(__host),port_(__port)
 {
@@ -115,6 +116,24 @@ void Proxy::_connect_core()
 		{
 			__it->second->client_ = new Proxy_client(new Reactor(),__it->second->ip_.c_str(),__it->second->port_);
 		}
+	}
+}
+
+Proxy* Proxy::instance( const easy_char* __host /*= "0.0.0.0"*/,easy_uint32 __port /*= 9876*/ )
+{
+	if (!inst_)
+	{
+		inst_ = new Proxy(__host,__port);
+	}
+	return inst_;
+}
+
+void Proxy::destroy()
+{
+	if (inst_)
+	{
+		delete inst_;
+		inst_ = easy_null;
 	}
 }
 

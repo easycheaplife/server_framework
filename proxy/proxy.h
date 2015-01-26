@@ -50,6 +50,10 @@ public:
 
 	easy_int32 event_loop();
 
+	static Proxy* instance(const easy_char* __host = "0.0.0.0",easy_uint32 __port = 9876);
+
+	static void	destroy();
+
 private:
 	//	load json file config
 	void _load_json();
@@ -71,5 +75,7 @@ private:
 	//	keys is fd,value is proxy info.
 	typedef std::map<easy_int32,Core_Info*>		fd_core_info;
 	fd_core_info								fd_core_info_;
+
+	static Proxy*			inst_;
 };
 #endif // proxy_h__
