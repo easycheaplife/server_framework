@@ -61,6 +61,9 @@ int Proxy::event_loop()
 easy_int32 Proxy::handle_packet( easy_int32 __fd,const std::string& __string_packet )
 {
 	packet_handle_->handle_packet(__fd,__string_packet);
+#ifdef __DEBUG
+	printf("%d handle packet\n",__fd);
+#endif // __DEBUG
 	return 0;
 }
 
@@ -74,6 +77,9 @@ easy_int32 Proxy::handle_packet(easy_int32 __fd,const easy_char* __packet,easy_i
 			fd_core_info_[__fd]->client_->write(__packet,__length);
 		}
 	}
+#ifdef __DEBUG
+	printf("%d handle packet\n",__fd);
+#endif // __DEBUG
 	return 0;
 }
 
@@ -91,6 +97,9 @@ void Proxy::connected( easy_int32 __fd )
 		easy::EasyLog::SaveLog(JsonProxy::instance()->log_path().c_str(),\
 			easy::kErrors,"proxy config error, can not find suitable core!");
 	}
+#ifdef __DEBUG
+	printf("%d connected\n",__fd);
+#endif // __DEBUG
 }
 
 void Proxy::dis_connected( easy_int32 __fd )
@@ -100,6 +109,9 @@ void Proxy::dis_connected( easy_int32 __fd )
 	{
 		fd_core_info_.erase(__find);
 	}
+#ifdef __DEBUG
+	printf("%d disconnected\n",__fd);
+#endif // __DEBUG
 }
 
 void Proxy::_load_json()

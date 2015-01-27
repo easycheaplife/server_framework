@@ -55,16 +55,23 @@ int Core::event_loop()
 easy_int32 Core::handle_packet( easy_int32 __fd,const std::string& __string_packet )
 {
 	packet_handle_->handle_packet(__fd,__string_packet);
+#ifdef __DEBUG
+	printf("%d handle packet\n",__fd);
+#endif // __DEBUG
 	return 0;
 }
 
 void Core::connected( easy_int32 __fd )
 {
-
+#ifdef __DEBUG
+	printf("%d connected\n",__fd);
+#endif // __DEBUG
 }
 
 void Core::dis_connected( easy_int32 __fd )
 {
-
+#ifdef __DEBUG
+	printf("%d disconnected\n",__fd);
+#endif // __DEBUG
 }
 
