@@ -57,7 +57,9 @@ int Client_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __pac
 		{
 			transfer::Packet __s2c_packet;
 			__s2c_packet.ParseFromString(__packet);
+#ifdef __DEBUG
 			printf("%s\n",__s2c_packet.content().c_str());
+#endif // __DEBUG
 			Client::instance()->send_test_msg();
 		}
 		break;
