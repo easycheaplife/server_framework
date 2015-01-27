@@ -21,8 +21,28 @@
  ****************************************************************************/
 #include "core_packet_handle.h"
 #include "event_handle.h"
+#include "common.pb.h"
+#include "msg.h"
+#include "core.h"
 
-int Core_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packet )
+int Core_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packet,void* __user_data )
 {
+	common::common_head __packet_head;
+	__packet_head.ParseFromString(__packet);
+	easy_int32 __msg_id =__packet_head.msg_id();
+	easy_uint32 __packet_length = __packet.length();
+	easy_uint16* __real_fd = (easy_uint16*)(__user_data);
+	__packet_length |= (*__real_fd << 16);
+	switch (__msg_id)
+	{
+	case MSG_C2S2C_TEST:
+		{
+			Core::instance()->send_packet(__fd,(easy_char*)&__packet_length,sizeof(easy_uint32));
+			Core::instance()->send_packet(__fd,__packet.c_str(),__packet.length());
+		}
+		break;
+	default:
+		break;
+	}
 	return 0;
 }

@@ -33,7 +33,7 @@ public:
 
 	~Connector();
 
-	virtual easy_int32 handle_packet(easy_int32 __fd,const std::string& __string_packet);
+	virtual easy_int32 handle_packet(easy_int32 __fd,const std::string& __string_packet,void* __user_data);
 
 	easy_int32 event_loop(easy_ulong __millisecond);
 

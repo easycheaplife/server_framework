@@ -28,6 +28,7 @@
 #include "easy_dump.h"
 #endif // __LINUX
 
+Core* Core::inst_ = easy_null;
 Core::Core(const easy_char* __host /*= "0.0.0.0"*/,easy_uint32 __port /*= 9876*/ )
 	: Server_Impl((reactor_ = new Reactor),__host,__port),host_(__host),port_(__port)
 {
@@ -52,9 +53,9 @@ int Core::event_loop()
 	return reactor_->event_loop(__max_time_out);
 }
 
-easy_int32 Core::handle_packet( easy_int32 __fd,const std::string& __string_packet )
+easy_int32 Core::handle_packet( easy_int32 __fd,const std::string& __string_packet,void* __user_data )
 {
-	packet_handle_->handle_packet(__fd,__string_packet);
+	packet_handle_->handle_packet(__fd,__string_packet,__user_data);
 #ifdef __DEBUG
 	printf("%d handle packet\n",__fd);
 #endif // __DEBUG
@@ -73,5 +74,23 @@ void Core::dis_connected( easy_int32 __fd )
 #ifdef __DEBUG
 	printf("%d disconnected\n",__fd);
 #endif // __DEBUG
+}
+
+Core* Core::instance( const easy_char* __host /*= "0.0.0.0"*/,easy_uint32 __port /*= 9876*/ )
+{
+	if (!inst_)
+	{
+		inst_ = new Core(__host,__port);
+	}
+	return inst_;
+}
+
+void Core::destroy()
+{
+	if (inst_)
+	{
+		delete inst_;
+		inst_ = easy_null;
+	}
 }
 

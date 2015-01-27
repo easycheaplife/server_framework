@@ -32,7 +32,7 @@ public:
 
 	virtual ~Login_Packet_Handle() { }
 
-	virtual easy_int32 handle_packet(easy_int32 __fd,const std::string& __packet);
+	virtual easy_int32 handle_packet(easy_int32 __fd,const std::string& __packet,void* __user_data);
 };
 
 #endif // login_packet_handle_h__

@@ -31,7 +31,7 @@ easy_int32 main(easy_int32 __arg_num,easy_char** args)
 
 	easy_char* __host = args[1];
 	easy_uint32 __port = atoi(args[2]);
-	Core __core_srv(__host,__port);
-	__core_srv.event_loop();
+	Core::instance(__host,__port);
+	Core::instance()->event_loop();
 	return 0;
 }

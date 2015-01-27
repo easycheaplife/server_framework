@@ -30,7 +30,7 @@ public:
 
 	virtual easy_bool is_proxy_client() { return true; }
 
-	easy_int32 handle_packet(easy_int32 __fd,const std::string& __string_packet);
+	easy_int32 handle_packet(easy_int32 __fd,const std::string& __string_packet,void* __user_data);
 
 	~Proxy_client();
 };

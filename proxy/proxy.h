@@ -35,7 +35,7 @@ public:
 
 	//	called at a packet to be handle
 	//	for protobuf
-	virtual easy_int32 handle_packet(easy_int32 __fd,const std::string& __string_packet);
+	virtual easy_int32 handle_packet(easy_int32 __fd,const std::string& __string_packet,void* __user_data);
 
 	//	for byte stream, it is the  default way;it use protobuf, just return it.
 	virtual easy_int32 handle_packet(easy_int32 __fd,const easy_char* __packet,easy_int32 __length);

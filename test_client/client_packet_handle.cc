@@ -28,7 +28,7 @@
 #include "event_handle.h"
 #include "client.h"
 
-int Client_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packet )
+int Client_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packet,void* __user_data )
 {
 	common::common_head __packet_head;
 	__packet_head.ParseFromString(__packet);

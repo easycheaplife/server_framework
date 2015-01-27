@@ -24,7 +24,7 @@
 #include "json_proxy.h"
 #include "proxy_client.h"
 
-int Proxy_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packet )
+int Proxy_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packet,void* __user_data )
 {
 	//	add current fd to head,high 16 bits, then send to core
 	easy_uint32 __packet_length = __packet.length();

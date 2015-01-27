@@ -31,7 +31,7 @@ public:
 
 	virtual ~Client_Packet_Handle() { }
 
-	virtual int handle_packet(easy_int32 __fd,const std::string& __packet);
+	virtual int handle_packet(easy_int32 __fd,const std::string& __packet,void* __user_data);
 };
 
 #endif // login_packet_handle_h__

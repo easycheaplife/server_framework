@@ -58,9 +58,9 @@ int Proxy::event_loop()
 	return reactor_->event_loop(__max_time_out);
 }
 
-easy_int32 Proxy::handle_packet( easy_int32 __fd,const std::string& __string_packet )
+easy_int32 Proxy::handle_packet( easy_int32 __fd,const std::string& __string_packet,void* __user_data )
 {
-	packet_handle_->handle_packet(__fd,__string_packet);
+	packet_handle_->handle_packet(__fd,__string_packet,__user_data);
 #ifdef __DEBUG
 	printf("%d handle packet\n",__fd);
 #endif // __DEBUG
