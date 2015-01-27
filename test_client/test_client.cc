@@ -28,6 +28,9 @@
 
 easy_int32 main(easy_int32 __arg_num,easy_char** args)
 {
+	/*
+		g++ -g -Wl,--no-as-needed -std=c++11 -pthread -D__LINUX -D__HAVE_SELECT -o ./bin/test_client test_client/client.h test_client/client.cc test_client/connector.h test_client/connector.cc test_client/client_packet_handle.h test_client/client_packet_handle.cc test_client/test_client.cc  -I../easy/src/base -I./common -I../tinynet -I../easy/dep/protobuf/src -I./proto -L./lib -L../easy/dep/protobuf/src/.libs -ltinynet -leasy -lprotobuf -lpthread -lproto
+	*/
 	if(3 != __arg_num)
 	{
 		printf("param error,please input correct param! for example: nohup ./transform 192.168.22.63 9876 & \n");
