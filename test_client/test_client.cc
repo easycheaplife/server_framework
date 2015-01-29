@@ -40,10 +40,11 @@ easy_int32 main(easy_int32 __arg_num,easy_char** args)
 	easy_uint32 __port = atoi(args[2]);
 	Client::instance()->connect_login(__host,__port);
 	Client::instance()->send_login_msg();
-	static const easy_int32 __max_time_out = 100*1000;
+	static const easy_int32 max_sleep_time_ = 100*1000;
 	while(true)
 	{
-		easy::Util::sleep(__max_time_out);
+		easy::Util::sleep(max_sleep_time_);
+		//Client::instance()->send_test_msg();
 	}
 	return 0;
 }
