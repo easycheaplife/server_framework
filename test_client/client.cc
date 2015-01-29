@@ -122,5 +122,8 @@ void Client::send_test_msg()
 	easy_uint32 __length = __string_packet.length();
 	memcpy(__send_buf,(void*)&__length,__packet_head_size);
 	strcpy(__send_buf + __packet_head_size,__string_packet.c_str());
-	connector_proxy_->write((easy_char*)__send_buf,__packet_head_size + __length);
+	if (connector_proxy_)
+	{
+		connector_proxy_->write((easy_char*)__send_buf,__packet_head_size + __length);
+	}
 }

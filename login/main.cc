@@ -32,6 +32,10 @@ easy_int32 main(easy_int32 __arg_num,easy_char** args)
 		exit(1);
 	}
 
+	easy_char* __host = args[1];
+	easy_uint32 __port = atoi(args[2]);
+	Login __login_srv(__host,__port);
+
 	MongocUnitTest __mongoc_unit_test;
 	__mongoc_unit_test.init();
 	//__mongoc_unit_test.save();
@@ -39,9 +43,6 @@ easy_int32 main(easy_int32 __arg_num,easy_char** args)
 	MongocxxUnitTest __mongocxx_unit_test;
 	__mongocxx_unit_test.test();
 
-	easy_char* __host = args[1];
-	easy_uint32 __port = atoi(args[2]);
-	Login __login_srv(__host,__port);
 	__login_srv.event_loop();
 	return 0;
 }

@@ -50,6 +50,8 @@ public:
 
 	easy_int32 event_loop();
 
+	Core_Info* get_core_info(easy_int32 __fd);
+
 	static Proxy* instance(const easy_char* __host = "0.0.0.0",easy_uint32 __port = 9876);
 
 	static void	destroy();

@@ -64,8 +64,10 @@ JsonLogin::JsonLogin(const easy_char* __file_name):JsonBase(__file_name),wight_t
 		}
 	}
 	//	log path
-	json_t* __json_log_path = json_object_get(json_load_, "log_path");
+	json_t* __json_log_path = json_object_get(json_load_, "login_log_path");
 	log_path_ = json_string_value(__json_log_path);
+	json_t* __json_mongodb_url = json_object_get(json_load_, "mongodb_url");
+	mongodb_url_ = json_string_value(__json_mongodb_url);
 }
 
 void JsonLogin::destroy()

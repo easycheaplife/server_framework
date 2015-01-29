@@ -49,7 +49,7 @@ public:
 
 	~JsonLogin();
 
-	static JsonLogin* instance(const easy_char* __file_name = "./config/login.json");
+	static JsonLogin* instance(const easy_char* __file_name = "./config/servers.json");
 
 	static void destroy();
 
@@ -63,6 +63,8 @@ public:
 	Proxy_Info* get_proxy_info();
 
 	proxy_list& get_proxy_list() { return proxy_list_;}
+
+	std::string& mongodb_url()  { return mongodb_url_; }
 private:
 	void _clear();
 
@@ -76,6 +78,9 @@ private:
 
 	//	log	path
 	std::string log_path_;
+
+	//	mongon db url
+	std::string mongodb_url_;
 };
 
 #endif // json_login_h__

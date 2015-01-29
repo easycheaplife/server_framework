@@ -21,6 +21,7 @@
  ****************************************************************************/
 #include "mongocxx_unit_test.h"
 #include "easy_mongocxx_wrapper.h"
+#include "json_login.h"
 
 #ifndef verify
 #  define verify(x) MONGO_verify(x)
@@ -40,8 +41,9 @@ MongocxxUnitTest::~MongocxxUnitTest()
 
 void MongocxxUnitTest::test()
 {
+	std::string __mongodb_url = JsonLogin::instance()->mongodb_url();
 	//	test mongo code begin
-	easy::MongocxxWrapper::instance()->db_client_connection().dropCollection(collection_);
+	easy::MongocxxWrapper::instance(__mongodb_url.c_str())->db_client_connection().dropCollection(collection_);
 	// clean up old data from any previous tests
 	easy::MongocxxWrapper::instance()->db_client_connection().remove( collection_, mongo::BSONObj() );
 	verify( easy::MongocxxWrapper::instance()->db_client_connection().findOne( collection_ , mongo::BSONObj() ).isEmpty() );
