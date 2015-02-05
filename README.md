@@ -3,27 +3,29 @@ server_framework
 
 a c++ server framework for mobile game which uses tinynet,google protobuf,mongodb and so on. 
 
+
+
 build:
 ---
 download or git from github:
-$git clone git@github.com:yuyunliuhen/easy.git
-$git clone git@github.com:yuyunliuhen/tinynet.git
-$git clone git@github.com:yuyunliuhen/server_framework.git
+$git clone git@github.com:yuyunliuhen/easy.git<br>
+$git clone git@github.com:yuyunliuhen/tinynet.git<br>
+$git clone git@github.com:yuyunliuhen/server_framework.git<br>
 
 #####windwos
-(1) compiler or install boost
+(1) compiler or install boost<br>
 download from boost binaries: http://sourceforge.net/projects/boost/files/boost-binaries/,recommend 1.53 if you use vs2012.
 
-(2) install scons
-download from http://www.scons.org/download.php, the latest version is 2.3.3
+(2) install scons<br>
+download from http://www.scons.org/download.php, the latest version is 2.3.3<br>
 
-(3) compiler mongodb c++ driver
-git clone https://github.com/mongodb/mongo-cxx-driver.git,current latest stable version is 26compat .
-scons --cpppath="C:\local\boost_1_53_0" --libpath="C:\local\boost_1_53_0\lib64-msvc-11.0" --64 --sharedclient --dynamic-windows --dbg=on
-more detail:
+(3) compiler mongodb c++ driver<br>
+git clone https://github.com/mongodb/mongo-cxx-driver.git,current latest stable version is 26compat .<br>
+scons --cpppath="C:\local\boost_1_53_0" --libpath="C:\local\boost_1_53_0\lib64-msvc-11.0" --64 --sharedclient --dynamic-windows --dbg=on<br>
+more detail:<br>
 [mongodb windows ](http://blog.chinaunix.net/uid-8625039-id-4446874.html)<br>
 
-(4) compile server framework
+(4) compile server framework<br>
 use windwos command tools:VS2012 x64 Cross Tools Command Prompt <br>
 cmake -G "Visual Studio 11 Win64" . <br>
 msbuild.exe ALL_BUILD.vcxproj
