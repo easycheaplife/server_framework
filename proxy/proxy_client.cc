@@ -34,6 +34,9 @@ easy_int32 Proxy_client::handle_packet( easy_int32 __fd,const std::string& __str
 	easy_uint32 __packet_length = __string_packet.length();
 	Proxy::instance()->send_packet(__fd,(easy_char*)&__packet_length,sizeof(__packet_length));
 	Proxy::instance()->send_packet(__fd,__string_packet.c_str(),__packet_length);
+#ifdef __DEBUG
+	printf("send_packet %d\n",__packet_length);
+#endif // __DEBUG
 	return -1;
 }
 

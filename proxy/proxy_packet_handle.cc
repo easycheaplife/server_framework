@@ -24,6 +24,9 @@
 #include "proxy.h"
 #include "proxy_client.h"
 #include "json_proxy.h"
+#ifdef __DEBUG
+#include "transfer.pb.h"
+#endif // __DEBUG
 
 int Proxy_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packet,void* __user_data )
 {
@@ -33,6 +36,11 @@ int Proxy_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __pack
 	Core_Info* __core_info = Proxy::instance()->get_core_info(__fd);
 	if (__core_info)
 	{
+#ifdef __DEBUG
+		transfer::Packet __packet_protobuf;
+		__packet_protobuf.ParseFromString(__packet);
+		printf("%s\n",__packet_protobuf.content().c_str());
+#endif // __DEBUG
 		__core_info->client_->write((easy_char*)&__packet_length,sizeof(__packet_length));
 		__core_info->client_->write(__packet.c_str(),__packet.length());
 	}

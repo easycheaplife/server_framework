@@ -22,6 +22,9 @@
 #include "core_packet_handle.h"
 #include "event_handle.h"
 #include "common.pb.h"
+#ifdef __DEBUG
+#include "transfer.pb.h"
+#endif // __DEBUG
 #include "msg.h"
 #include "core.h"
 
@@ -37,6 +40,11 @@ int Core_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packe
 	{
 	case MSG_C2S2C_TEST:
 		{
+#ifdef __DEBUG
+			transfer::Packet __packet_protobuf;
+			__packet_protobuf.ParseFromString(__packet);
+			printf("%s\n",__packet_protobuf.content().c_str());
+#endif // __DEBUG
 			Core::instance()->send_packet(__fd,(easy_char*)&__packet_length,sizeof(easy_uint32));
 			Core::instance()->send_packet(__fd,__packet.c_str(),__packet.length());
 		}
