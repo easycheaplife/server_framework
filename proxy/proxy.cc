@@ -62,18 +62,12 @@ easy_int32 Proxy::handle_packet( easy_int32 __fd,const std::string& __string_pac
 {
 	//	dispatch and transform packet to special core server
 	packet_handle_->handle_packet(__fd,__string_packet,__user_data);
-#ifdef __DEBUG
-	printf("%d handle packet\n",__fd);
-#endif // __DEBUG
 	return 0;
 }
 
 easy_int32 Proxy::handle_packet(easy_int32 __fd,const easy_char* __packet,easy_int32 __length)
 {
 	//	dispatch and transform packet to special core server
-#ifdef __DEBUG
-	printf("%d handle packet\n",__fd);
-#endif // __DEBUG
 	return 0;
 }
 

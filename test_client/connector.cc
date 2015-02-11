@@ -30,7 +30,7 @@ int Connector::handle_packet( easy_int32 __fd,const std::string& __string_packet
 	return packet_handle_->handle_packet(__fd,__string_packet,__user_data);
 }
 
-Connector::Connector( const easy_char* __host,easy_uint32 __port ) : Client_Impl((reactor_ = new Reactor()),__host,__port) 
+Connector::Connector( const easy_char* __host,easy_uint32 __port ) : Client_Impl((reactor_ = new Reactor(true)),__host,__port) 
 {
 	packet_handle_ = new Client_Packet_Handle(this);
 }
