@@ -56,9 +56,6 @@ int Core::event_loop()
 easy_int32 Core::handle_packet( easy_int32 __fd,const std::string& __string_packet,void* __user_data )
 {
 	packet_handle_->handle_packet(__fd,__string_packet,__user_data);
-#ifdef __DEBUG
-	printf("%d handle packet\n",__fd);
-#endif // __DEBUG
 	return 0;
 }
 
