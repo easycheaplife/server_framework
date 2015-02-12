@@ -3,12 +3,12 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 AUX_SOURCE_DIRECTORY( ../easy/src/base EASY_SRC_LIST)
 IF(UNIX)
-	SET(TINYNET_SRC_LIST ../tinynet/reactor.cc ../tinynet/reactor_impl_select.cc ../tinynet/reactor_impl_poll.cc ../tinynet/reactor_impl_epoll.cc
-	../tinynet/event_handle_srv.cc  ../tinynet/server_protobuf_impl.cc 
+	SET(TINYNET_SRC_LIST ../tinynet/socket_ex.cc ../tinynet/reactor.cc ../tinynet/reactor_impl_select.cc ../tinynet/reactor_impl_poll.cc ../tinynet/reactor_impl_epoll.cc
+	../tinynet/event_handle.cc ../tinynet/event_handle_srv.cc  ../tinynet/server_protobuf_impl.cc 
 	../tinynet/event_handle_cli.cc ../tinynet/client_protobuf_impl.cc)
 ELSE(WIN32)
-	SET(TINYNET_SRC_LIST ../tinynet/reactor.h ../tinynet/reactor.cc ../tinynet/reactor_impl_select.h ../tinynet/reactor_impl_select.cc ../tinynet/reactor_impl_iocp.h ../tinynet/reactor_impl_iocp.cc
-	../tinynet/event_handle_srv.h ../tinynet/event_handle_srv.cc ../tinynet/server_impl.h ../tinynet/server_protobuf_impl.cc 
+	SET(TINYNET_SRC_LIST ../tinynet/socket_ex.h ../tinynet/socket_ex.cc ../tinynet/reactor.h ../tinynet/reactor.cc ../tinynet/reactor_impl_select.h ../tinynet/reactor_impl_select.cc ../tinynet/reactor_impl_iocp.h ../tinynet/reactor_impl_iocp.cc
+	../tinynet/event_handle.h ../tinynet/event_handle.cc ../tinynet/event_handle_srv.h ../tinynet/event_handle_srv.cc ../tinynet/server_impl.h ../tinynet/server_protobuf_impl.cc 
 	../tinynet/event_handle_cli.h ../tinynet/event_handle_cli.cc ../tinynet/client_protobuf_impl.h ../tinynet/client_protobuf_impl.cc)
 ENDIF(UNIX)
 
