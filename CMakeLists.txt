@@ -17,8 +17,9 @@ INCLUDE_DIRECTORIES( . ../easy/src/base ../tinynet ../easy/dep/protobuf/src ./pr
 
 IF(UNIX)
 	ADD_DEFINITIONS(-D__HAVE_SELECT -D__LINUX)
-	SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
 	SET(CMAKE_CXX_FLAGS "-Wl,--no-as-needed -std=c++11 -pthread") 
+	SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O3 -Wall -g -ggdb")
+	SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 ELSE(WIN32)
 	ADD_DEFINITIONS(-D__HAVE_SELECT -D__WIN32 -DWIN32 -D__TEST)
 ENDIF(UNIX)
