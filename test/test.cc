@@ -101,7 +101,7 @@ void output(const char* __fmt,...)
 #endif //__DEBUG
 }
 
-bool test_4_login(int sock,char* __proxy_host,unsigned int& __proxy_port)
+bool test_4_login(int sock,std::string& __proxy_host,unsigned int& __proxy_port)
 {
 	unsigned int __length = 0;
 	unsigned int __pakcet_id = /*MSG_C2L_LOGIN*/1;
@@ -111,7 +111,8 @@ bool test_4_login(int sock,char* __proxy_host,unsigned int& __proxy_port)
 	__c2l_login.set_msg_id(__pakcet_id);
 	__c2l_login.set_user_name("lee");
 	__c2l_login.set_user_pwd("lee");
-	std::string __string_login;
+	static std::string __string_login;
+	__string_login.clear();
 	__c2l_login.SerializeToString(&__string_login);
 	__length = __string_login.length();
 	int send_bytes = send(sock,(void*)&__length,__packet_head_size,0);
@@ -206,7 +207,7 @@ bool test_4_login(int sock,char* __proxy_host,unsigned int& __proxy_port)
 		int __status = __packet_l2c_login.status();
 		if (/*LOGIN_STATUS_OK*/1000 == __status)
 		{
-			strcpy(__proxy_host,__packet_l2c_login.proxy_ip().c_str());
+			__proxy_host = __packet_l2c_login.proxy_ip();
 			__proxy_port = __packet_l2c_login.proxy_port();
 			printf("login ok,ready for connect proxy ip:%s,port:%d\n",__packet_l2c_login.proxy_ip().c_str(),__packet_l2c_login.proxy_port());
 			return true;
@@ -216,7 +217,7 @@ bool test_4_login(int sock,char* __proxy_host,unsigned int& __proxy_port)
 	return false;
 }
 
-void test_4_proxy(char* __proxy_host,unsigned int __proxy_port)
+void test_4_proxy(std::string& __proxy_host,unsigned int __proxy_port)
 {
 	int sock = socket(AF_INET,SOCK_STREAM,0);
 	if(-1 == sock)
@@ -226,7 +227,7 @@ void test_4_proxy(char* __proxy_host,unsigned int __proxy_port)
 	}
 	struct sockaddr_in clientaddr;
 	clientaddr.sin_family = AF_INET;
-	clientaddr.sin_addr.s_addr = inet_addr(__proxy_host);
+	clientaddr.sin_addr.s_addr = inet_addr(__proxy_host.c_str());
 	clientaddr.sin_port = htons(__proxy_port);
 	int res = connect(sock,(sockaddr*)&clientaddr,sizeof(sockaddr_in));
 	if(-1 == res)
@@ -367,12 +368,11 @@ int main(int __arg_num, char** __args)
 		printf("error at connect,errno = %d\n", errno);
 		exit(1);
 	}
-	char __proxy_host[__buf_size];
-	memset(__proxy_host,0,__buf_size);
+	std::string __proxy_host;
 	unsigned int __proxy_port = 0;
 	if(test_4_login(sock,__proxy_host,__proxy_port))
 	{
-		printf("ready for connect proxy ip:%s,port:%d\n",__proxy_host,__proxy_port);
+		printf("ready for connect proxy ip:%s,port:%d\n",__proxy_host.c_str(),__proxy_port);
 		test_4_proxy(__proxy_host,__proxy_port);
 	}
 }
