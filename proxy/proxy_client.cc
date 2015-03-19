@@ -32,8 +32,17 @@ Proxy_client::Proxy_client( Reactor* __reactor,const easy_char* __host,easy_uint
 easy_int32 Proxy_client::handle_packet( easy_int32 __fd,const std::string& __string_packet ,void* __user_data)
 {
 	easy_uint32 __packet_length = __string_packet.length();
+#if 1
+	static const easy_int32 max_buffer_size_ = 8*1024;
+	easy_char __buffer[max_buffer_size_] = {};
+	size_t __head_size = sizeof(__packet_length);
+	memcpy(__buffer,&__packet_length,__head_size);
+	memcpy(__buffer + __head_size,__string_packet.c_str(),__packet_length);
+	Proxy::instance()->send_packet(__fd,__buffer,__head_size + __packet_length);
+#else
 	Proxy::instance()->send_packet(__fd,(easy_char*)&__packet_length,sizeof(__packet_length));
 	Proxy::instance()->send_packet(__fd,__string_packet.c_str(),__packet_length);
+#endif
 #ifdef __DEBUG_
 	printf("send_packet %d\n",__packet_length);
 #endif // __DEBUG

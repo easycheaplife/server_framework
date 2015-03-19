@@ -45,8 +45,18 @@ int Core_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packe
 			__packet_protobuf.ParseFromString(__packet);
 			printf("%s\n",__packet_protobuf.content().c_str());
 #endif // __DEBUG
+#if 1
+			static const easy_int32 max_buffer_size_ = 8*1024;
+			easy_char __buffer[max_buffer_size_] = {};
+			size_t __head_size = sizeof(__packet_length);
+			size_t __packet_size = __packet.length();
+			memcpy(__buffer,&__packet_length,__head_size);
+			memcpy(__buffer + __head_size,__packet.c_str(),__packet_size);
+			Core::instance()->send_packet(__fd,__buffer,__head_size +__packet_size);
+#else
 			Core::instance()->send_packet(__fd,(easy_char*)&__packet_length,sizeof(easy_uint32));
 			Core::instance()->send_packet(__fd,__packet.c_str(),__packet.length());
+#endif
 		}
 		break;
 	default:
