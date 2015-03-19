@@ -41,7 +41,7 @@ int Proxy_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __pack
 		__packet_protobuf.ParseFromString(__packet);
 		printf("%s\n",__packet_protobuf.content().c_str());
 #endif // __DEBUG
-#if 1
+#if 0
 		//	just send once
 		static const easy_int32 max_buffer_size_ = 8*1024;
 		easy_char __buffer[max_buffer_size_] = {};
