@@ -26,7 +26,15 @@ scons --cpppath="C:\local\boost_1_53_0" --libpath="C:\local\boost_1_53_0\lib64-m
 more detail:<br>
 [mongodb windows ](http://blog.chinaunix.net/uid-8625039-id-4446874.html)<br>
 
-(4) compile server framework<br>
+(4) compiler jansson<br>
+open easy/dep/jansson/win32/vs2012/jansson.sln and compiler it <br>
+
+(4) compiler protobuf<br>
+open easy/dep/protobufvsprojects/protobuf.sln and compiler it <br>
+
+(6) compile server framework<br>
+general proto files first, if not call this file, error will be happend when compiler later<br>
+general_proto_64.bat<br>
 use windwos command tools:VS2012 x64 Cross Tools Command Prompt <br>
 cmake -G "Visual Studio 11 Win64" . <br>
 msbuild.exe ALL_BUILD.vcxproj
@@ -50,13 +58,17 @@ $./configure & make<br>
 more detail:<br>
 [google protobuf](http://blog.chinaunix.net/uid-8625039-id-4430741.html)<br>
 
-(4)	compiler mongodb<br>
+(4)	compiler jansson<br>
+$cd easy/dep/jansson<br>
+$./configure & make<br>
+
+(5)	compiler mongodb<br>
 $cd .. & cd mongo-cxx-driver<br>
 $scons all (if you install boost is not default,you can use like this:scons --cpppath="/home/lee/install/include" --libpath="/home/lee/install/lib")<br>
 more detail:<br>
 [mongodb linux ](http://blog.chinaunix.net/uid-8625039-id-4444101.html) <br>
 
-(5) compile server framework<br>
+(6) compile server framework<br>
 $cd server_framework <br>
 $cmake . ( if you want to debug ,you should do cmake -DCMAKE_BUILD_TYPE=Debug .<br>
 $make<br>
