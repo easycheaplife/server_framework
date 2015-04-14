@@ -21,7 +21,7 @@
  ****************************************************************************/
 #include "mongoc_unit_login.h"
 #include "easy_mongoc_wrapper.h"
-
+#ifdef __USE_MONGOC
 
 MongocUnitLogin::MongocUnitLogin(std::string	__collection_name)
 {
@@ -73,3 +73,4 @@ easy_bool MongocUnitLogin::query( std::string& __user_name, std::string& __user_
 	}
 	return false;
 }
+#endif //__USE_MONGOC

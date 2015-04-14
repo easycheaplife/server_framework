@@ -27,7 +27,7 @@ IF(UNIX)
 	TARGET_LINK_LIBRARIES(proxy tinynet easy protobuf proto jansson  )
 ELSEIF(WIN32)
 	#	64 bit
-	TARGET_LINK_LIBRARIES(proxy ws2_32 tinynet easy ../../easy/dep/protobuf/vsprojects/x64/Debug/libprotobuf proto ../../easy/dep/jansson/win32/vs2012/x64/Debug/jansson)
+	TARGET_LINK_LIBRARIES(proxy ws2_32 tinynet easy ../dep/protobuf/x64/lib/libprotobuf proto ../dep/jansson/x64/lib/jansson)
 	#	32 bit
 	#TARGET_LINK_LIBRARIES(proxy tinynet ../../easy/dep/protobuf/vsprojects/Debug/libprotobuf proto ws2_32)
 ENDIF(UNIX)

@@ -22,7 +22,7 @@
 #include "mongoc_unit_test.h"
 #include "easy_mongoc_wrapper.h"
 
-
+#ifdef __USE_MONGOC
 MongocUnitTest::MongocUnitTest(std::string	__collection_name)
 {
 	collection_name_ = __collection_name;
@@ -65,3 +65,4 @@ void MongocUnitTest::save()
 	easy::MongocWrapper::instance()->collection_insert(collection_name_.c_str(),doc_);
 	bson_destroy (doc_);
 }
+#endif //__USE_MONGOC

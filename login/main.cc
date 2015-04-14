@@ -36,10 +36,6 @@ easy_int32 main(easy_int32 __arg_num,easy_char** args)
 	easy_uint32 __port = atoi(args[2]);
 	Login __login_srv(__host,__port);
 
-	MongocUnitTest __mongoc_unit_test;
-	__mongoc_unit_test.init();
-	//__mongoc_unit_test.save();
-
 	MongocxxUnitTest __mongocxx_unit_test;
 	__mongocxx_unit_test.test();
 

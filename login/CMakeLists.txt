@@ -25,7 +25,7 @@ IF(UNIX)
 	TARGET_LINK_LIBRARIES(login tinynet easy protobuf proto jansson bson pthread mongoc-1.0 mongoclient boost_thread boost_regex)
 ELSEIF(WIN32)
 	#	64 bit
-	TARGET_LINK_LIBRARIES(login ws2_32 tinynet easy ../../easy/dep/protobuf/vsprojects/x64/Debug/libprotobuf proto ../dep/mongoc/x64/lib/bson-1.0 ../dep/mongoc/x64/lib/mongoc-1.0 ../dep/mongocxx/x64/lib/mongoclient-gd ../../easy/dep/jansson/win32/vs2012/x64/Debug/jansson
+	TARGET_LINK_LIBRARIES(login ws2_32 tinynet easy ../dep/protobuf/x64/lib/libprotobuf proto ../dep/mongoc/x64/lib/bson-1.0 ../dep/mongoc/x64/lib/mongoc-1.0 ../dep/mongocxx/x64/lib/mongoclient-gd ../dep/jansson/x64/lib/jansson
 	#	absolute path should add .lib, just like as follows:
 	c:/local/boost_1_53_0/lib64-msvc-11.0/libboost_thread-vc110-mt-gd-1_53.lib 
 	c:/local/boost_1_53_0/lib64-msvc-11.0/libboost_system-vc110-mt-gd-1_53.lib  

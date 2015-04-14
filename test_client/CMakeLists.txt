@@ -25,7 +25,7 @@ IF(UNIX)
 	TARGET_LINK_LIBRARIES(test_client tinynet easy protobuf proto pthread)
 ELSEIF(WIN32)
 	#	64 bit
-	TARGET_LINK_LIBRARIES(test_client tinynet easy ../../easy/dep/protobuf/vsprojects/x64/Debug/libprotobuf proto ws2_32)
+	TARGET_LINK_LIBRARIES(test_client tinynet easy ../dep/protobuf/x64/lib/libprotobuf proto ws2_32)
 	#	32 bit
 	#TARGET_LINK_LIBRARIES(test_client tinynet ../../easy/dep/protobuf/vsprojects/Debug/libprotobuf proto ws2_32)
 ENDIF(UNIX)

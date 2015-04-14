@@ -19,6 +19,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#ifdef __USE_MONGOC
 #ifndef mongoc_unit_login_h__
 #define mongoc_unit_login_h__
 
@@ -55,3 +56,4 @@ private:
 };
 
 #endif // mongoc_unit_login_h__
+#endif //__USE_MONGOC
