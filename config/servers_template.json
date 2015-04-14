@@ -1,15 +1,15 @@
 {
 	"core":
 	[
-		{"ip":"192.168.20.128","port":8881,"wight":1},
-		{"ip":"192.168.20.128","port":8882,"wight":1}
+		{"ip":"192.168.0.187","port":8881,"wight":1},
+		{"ip":"192.168.0.187","port":8882,"wight":1}
 	],
 	"proxy":
 	[
-		{"ip":"192.168.20.128","port":8871,"wight":1},
-		{"ip":"192.168.20.128","port":8872,"wight":1}
+		{"ip":"192.168.0.187","port":8871,"wight":1},
+		{"ip":"192.168.0.187","port":8872,"wight":1}
 	],
-	"mongodb_url":"192.168.20.135:27017",
+	"mongodb_url":"192.168.118.128:27017",
 	"core_log_path":"../../logs/core.log",
 	"proxy_log_path":"../../logs/proxy.log",
 	"login_log_path":"../../logs/login.log"
