@@ -74,12 +74,13 @@ $cmake . ( if you want to debug ,you should do cmake -DCMAKE_BUILD_TYPE=Debug .<
 $make<br>
 
 ######or
-excute build_x64/x86.bat at windows(visual studio 2012 or later ) or build.sh at linux(gcc 4.8.1 or later ). all dependency static/dynamic library and exe are build and place at dep directory, you can use it directly.
+excute build_x64/x86.bat at windows(visual studio 2012 or later ) or build.sh at linux(gcc 4.8.1 or later ). 
+#######all dependency static/dynamic library and exe are build and place at dep directory, that is to say,protobuf,mongodb,protobuf is compiler ok.,you can use it directly.
 
 configure:
 ---
 you can find file at config directory. it looks like that:<br>
-![](http://img.blog.csdn.net/20150416160100480)
+![](http://img.blog.csdn.net/20150416160100480) <br>
 add or remove core/proxy server if you want.<br>
 
 run:
