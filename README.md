@@ -79,22 +79,7 @@ excute build_x64/x86.bat at windows(visual studio 2012 or later ) or build.sh at
 configure:
 ---
 you can find file at config directory. it looks like that:<br>
-{<br>
-	"core":<br>
-	[<br>
-		{"ip":"192.168.20.135","port":8881,"wight":1},<br>
-		{"ip":"192.168.20.135","port":8882,"wight":1}<br>
-	],<br>
-	"proxy":<br>
-	[<br>
-		{"ip":"192.168.20.135","port":8871,"wight":1},<br>
-		{"ip":"192.168.20.135","port":8872,"wight":1}<br>
-	],<br>
-	"mongodb_url":"192.168.20.135:27017",<br>
-	"core_log_path":"../../logs/core.log",<br>
-	"proxy_log_path":"../../logs/proxy.log",<br>
-	"login_log_path":"../../logs/login.log"<br>
-}
+![](http://img.blog.csdn.net/20150416160100480)
 add or remove core/proxy server if you want.<br>
 
 run:
@@ -112,7 +97,7 @@ if [ `env | grep -c "LD_LIBRARY_PATH"` -ge 1 ];<br>
  $./bin/core 192.168.20.135 8881<br>
  $./bin/core 192.168.20.135 8882<br>
  $./bin/proxy 192.168.20.135 8871<br>
- $./bin/proxy 192.168.20.135 8871<br>
+ $./bin/proxy 192.168.20.135 8872<br>
  $./bin/login 192.168.20.135 8861<br>
  
  test:<br>
