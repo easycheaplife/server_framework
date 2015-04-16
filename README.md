@@ -79,21 +79,21 @@ excute build_x64/x86.bat at windows(visual studio 2012 or later ) or build.sh at
 configure:
 ---
 you can find file at config directory. it looks like that:<br>
-{
-	"core":
-	[
-		{"ip":"192.168.20.135","port":8881,"wight":1},
-		{"ip":"192.168.20.135","port":8882,"wight":1}
-	],
-	"proxy":
-	[
-		{"ip":"192.168.20.135","port":8871,"wight":1},
-		{"ip":"192.168.20.135","port":8872,"wight":1}
-	],
-	"mongodb_url":"192.168.20.135:27017",
-	"core_log_path":"../../logs/core.log",
-	"proxy_log_path":"../../logs/proxy.log",
-	"login_log_path":"../../logs/login.log"
+{<br>
+	"core":<br>
+	[<br>
+		{"ip":"192.168.20.135","port":8881,"wight":1},<br>
+		{"ip":"192.168.20.135","port":8882,"wight":1}<br>
+	],<br>
+	"proxy":<br>
+	[<br>
+		{"ip":"192.168.20.135","port":8871,"wight":1},<br>
+		{"ip":"192.168.20.135","port":8872,"wight":1}<br>
+	],<br>
+	"mongodb_url":"192.168.20.135:27017",<br>
+	"core_log_path":"../../logs/core.log",<br>
+	"proxy_log_path":"../../logs/proxy.log",<br>
+	"login_log_path":"../../logs/login.log"<br>
 }
 add or remove core/proxy server if you want.<br>
 
@@ -101,22 +101,22 @@ run:
 ---
 #####linux
 set environment:<br>
-if [ `env | grep -c "LD_LIBRARY_PATH"` -ge 1 ];
- then
-     LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib:./dep/protobuf/x64/lib:./dep/jansson/x64/lib; export LD_LIBRARY_PATH
+if [ `env | grep -c "LD_LIBRARY_PATH"` -ge 1 ];<br>
+ then<br>
+     LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib:./dep/protobuf/x64/lib:./dep/jansson/x64/lib; export LD_LIBRARY_PATH<br>
 
- else
-     LD_LIBRARY_PATH=/usr/local/lib:./dep/protobuf/x64/lib:./dep/jansson/x64/lib; export LD_LIBRARY_PATH
- fi
+ else<br>
+     LD_LIBRARY_PATH=/usr/local/lib:./dep/protobuf/x64/lib:./dep/jansson/x64/lib; export LD_LIBRARY_PATH<br>
+ fi<br>
  and then <br>
- $./bin/core 192.168.20.135 8881
- $./bin/core 192.168.20.135 8882
- $./bin/proxy 192.168.20.135 8871
- $./bin/proxy 192.168.20.135 8871
- $./bin/login 192.168.20.135 8861
+ $./bin/core 192.168.20.135 8881<br>
+ $./bin/core 192.168.20.135 8882<br>
+ $./bin/proxy 192.168.20.135 8871<br>
+ $./bin/proxy 192.168.20.135 8871<br>
+ $./bin/login 192.168.20.135 8861<br>
  
  test:<br>
- $./bin/test_client 192.168.20.135 8861
+ $./bin/test_client 192.168.20.135 8861<br>
  
 press test:
 ---
