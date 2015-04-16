@@ -16,7 +16,7 @@ IF(UNIX)
 		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m64")  
 		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64")    
 	ENDIF(USE_32BITS)  
-	SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb -fpermissive -L../../easy/dep/protobuf/src/.libs -L../../easy/dep/jansson/src/.libs")
+	SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb -fpermissive -L../dep/protobuf/x64/lib -L../dep/jansson/x64/lib")
 ELSE(WIN32)
 
 ENDIF(UNIX)

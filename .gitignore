@@ -5,14 +5,14 @@
 *.obj
 
 # Compiled Dynamic libraries
-*.so
+#*.so
 *.dylib
 #*.dll
 
 # Compiled Static libraries
 *.lai
 *.la
-*.a
+#*.a
 #*.lib
 
 # Executables

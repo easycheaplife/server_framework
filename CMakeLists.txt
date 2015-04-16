@@ -16,7 +16,7 @@ AUX_SOURCE_DIRECTORY( ./proto PROTO_SRC_LIST)
 INCLUDE_DIRECTORIES( . ../easy/src/base ../tinynet ../easy/dep/protobuf/src ./proto ../easy/dep/mongo-c-driver/src/mongoc ../easy/dep/mongo-c-driver/src/libbson/src/bson ../easy/dep/mongo-cxx-driver/src c:/local/boost_1_53_0)
 
 IF(UNIX)
-	ADD_DEFINITIONS(-D__HAVE_SELECT -D__LINUX )
+	ADD_DEFINITIONS(-D__HAVE_EPOLL -D__LINUX -D__DEBUG)
 	SET(CMAKE_CXX_FLAGS "-Wl,--no-as-needed -std=c++11 -pthread") 
 	SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -pg -ggdb")
 	SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
