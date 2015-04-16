@@ -75,7 +75,7 @@ $make<br>
 
 ######or
 excute build_x64/x86.bat at windows(visual studio 2012 or later ) or build.sh at linux(gcc 4.8.1 or later ). 
-#######all dependency static/dynamic library and exe are build and place at dep directory, that is to say,protobuf,mongodb,protobuf is compiler ok.,you can use it directly.
+######all dependency static/dynamic library and exe are build and place at dep directory, that is to say,protobuf,mongodb,protobuf is compiler ok.,you can use it directly.
 
 configure:
 ---
