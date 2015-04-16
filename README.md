@@ -74,8 +74,52 @@ $cmake . ( if you want to debug ,you should do cmake -DCMAKE_BUILD_TYPE=Debug .<
 $make<br>
 
 ######or
-excute build_x64/x86.bat at windows(visual studio 2012 or later ) or build.sh at linux(gcc 4.8.1 or later ).
+excute build_x64/x86.bat at windows(visual studio 2012 or later ) or build.sh at linux(gcc 4.8.1 or later ). all dependency static/dynamic library and exe are build and place at dep directory, you can use it directly.
 
+configure:
+---
+you can find file at config directory. it looks like that:<br>
+{
+	"core":
+	[
+		{"ip":"192.168.20.135","port":8881,"wight":1},
+		{"ip":"192.168.20.135","port":8882,"wight":1}
+	],
+	"proxy":
+	[
+		{"ip":"192.168.20.135","port":8871,"wight":1},
+		{"ip":"192.168.20.135","port":8872,"wight":1}
+	],
+	"mongodb_url":"192.168.20.135:27017",
+	"core_log_path":"../../logs/core.log",
+	"proxy_log_path":"../../logs/proxy.log",
+	"login_log_path":"../../logs/login.log"
+}
+add or remove core/proxy server if you want.<br>
 
+run:
+---
+#####linux
+set environment:<br>
+if [ `env | grep -c "LD_LIBRARY_PATH"` -ge 1 ];
+ then
+     LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib:./dep/protobuf/x64/lib:./dep/jansson/x64/lib; export LD_LIBRARY_PATH
+
+ else
+     LD_LIBRARY_PATH=/usr/local/lib:./dep/protobuf/x64/lib:./dep/jansson/x64/lib; export LD_LIBRARY_PATH
+ fi
+ and then <br>
+ $./bin/core 192.168.20.135 8881
+ $./bin/core 192.168.20.135 8882
+ $./bin/proxy 192.168.20.135 8871
+ $./bin/proxy 192.168.20.135 8871
+ $./bin/login 192.168.20.135 8861
+ 
+ test:<br>
+ $./bin/test_client 192.168.20.135 8861
+ 
+press test:
+---
+[server framework performance test](http://blog.chinaunix.net/uid-8625039-id-4911018.html)<br>
 
 
