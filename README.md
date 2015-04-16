@@ -86,13 +86,7 @@ run:
 ---
 #####linux
 set environment:<br>
-if [ `env | grep -c "LD_LIBRARY_PATH"` -ge 1 ];<br>
- then<br>
-     LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib:./dep/protobuf/x64/lib:./dep/jansson/x64/lib; export LD_LIBRARY_PATH<br>
-
- else<br>
-     LD_LIBRARY_PATH=/usr/local/lib:./dep/protobuf/x64/lib:./dep/jansson/x64/lib; export LD_LIBRARY_PATH<br>
- fi<br>
+![](http://img.blog.csdn.net/20150416160501831)
  and then <br>
  $./bin/core 192.168.20.135 8881<br>
  $./bin/core 192.168.20.135 8882<br>
