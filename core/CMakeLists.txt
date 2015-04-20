@@ -25,14 +25,14 @@ IF(UNIX)
 	TARGET_LINK_LIBRARIES(core tinynet easy protobuf proto pthread mongoclient boost_thread boost_regex)
 ELSEIF(WIN32)
 	#	64 bit
-	TARGET_LINK_LIBRARIES(core ws2_32 tinynet easy ../dep/protobuf/x64/lib/libprotobuf proto ../dep/mongoc/x64/lib/bson-1.0 ../dep/mongoc/x64/lib/mongoc-1.0 ../dep/mongocxx/x64/lib/mongoclient-gd 
+	TARGET_LINK_LIBRARIES(core ws2_32 tinynet easy ../dep/protobuf/x64/lib/libprotobuf proto ../dep/mongocxx/x64/lib/mongoclient-gd 
 	#	absolute path should add .lib, just like as follows:
 	c:/local/boost_1_53_0/lib64-msvc-11.0/libboost_thread-vc110-mt-gd-1_53.lib 
 	c:/local/boost_1_53_0/lib64-msvc-11.0/libboost_system-vc110-mt-gd-1_53.lib  
 	c:/local/boost_1_53_0/lib64-msvc-11.0/libboost_date_time-vc110-mt-gd-1_53.lib 
 	c:/local/boost_1_53_0/lib64-msvc-11.0/libboost_chrono-vc110-mt-gd-1_53.lib)
 	#	32 bit
-	#TARGET_LINK_LIBRARIES(core tinynet ../../easy/dep/protobuf/vsprojects/Debug/libprotobuf proto ../dep/mongoc/x86/lib/bson-1.0 ../dep/mongoc/x86/lib/mongoc-1.0 ws2_32)
+	#TARGET_LINK_LIBRARIES(core tinynet ../../easy/dep/protobuf/vsprojects/Debug/libprotobuf proto ws2_32)
 ENDIF(UNIX)
 SET(EXECUTABLE_OUTPUT_PATH ../bin)
 
