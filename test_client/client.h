@@ -18,6 +18,8 @@ public:
 
 	easy_bool connect_login(const easy_char* __host, easy_uint32 __port);
 
+	void	disconnect_login();
+
 	easy_bool connect_proxy(const easy_char* __host, easy_uint32 __port);
 
 	void	send_login_msg();

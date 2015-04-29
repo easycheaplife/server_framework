@@ -37,6 +37,8 @@ public:
 
 	easy_int32 event_loop(easy_ulong __millisecond);
 
+	void disconnect();
+
 private:
 	Packet_Handle*  packet_handle_;
 

@@ -44,3 +44,8 @@ int Connector::event_loop( easy_ulong __millisecond )
 {
 	return reactor_->event_loop(__millisecond);
 }
+
+void Connector::disconnect()
+{
+	reactor_->stop();
+}

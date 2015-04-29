@@ -127,3 +127,13 @@ void Client::send_test_msg()
 		connector_proxy_->write((easy_char*)__send_buf,__packet_head_size + __length);
 	}
 }
+
+void Client::disconnect_login()
+{
+	connector_login_->disconnect();
+	if (connector_login_)
+	{
+		delete connector_login_;
+		connector_login_ = easy_null;
+	}
+}
