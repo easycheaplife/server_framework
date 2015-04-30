@@ -15,6 +15,7 @@ Client::Client()
 	connector_proxy_ = easy_null;
 	proxy_port_ = 0;
 	login_port_ = 0;
+	unique_id_ = 0;
 	srand(easy::EasyTime::get_cur_sys_time());
 }
 
@@ -53,7 +54,7 @@ easy_bool Client::connect_login(const easy_char* __host, easy_uint32 __port)
 	return true;
 }
 
-easy_bool Client::connect_proxy( const easy_char* __host, easy_uint32 __port )
+easy_bool Client::connect_proxy( const easy_char* __host, easy_uint32 __port,easy_uint32 __unique_id )
 {
 	if (!__host)
 	{
@@ -61,6 +62,7 @@ easy_bool Client::connect_proxy( const easy_char* __host, easy_uint32 __port )
 	}
 	proxy_host_ = __host;
 	proxy_port_ = __port;
+	unique_id_ = __unique_id;
 	connector_proxy_ = new Connector(__host,__port);
 	return true;
 }
@@ -120,11 +122,12 @@ void Client::send_test_msg()
 	__packet_protobuf.set_content(__random_string[__random_index]);
 	__packet_protobuf.SerializeToString(&__string_packet);
 	easy_uint32 __length = __string_packet.length();
+	__length |= (unique_id_ << 16);
 	memcpy(__send_buf,(void*)&__length,__packet_head_size);
 	strcpy(__send_buf + __packet_head_size,__string_packet.c_str());
 	if (connector_proxy_)
 	{
-		connector_proxy_->write((easy_char*)__send_buf,__packet_head_size + __length);
+		connector_proxy_->write((easy_char*)__send_buf,__packet_head_size + __string_packet.length());
 	}
 }
 

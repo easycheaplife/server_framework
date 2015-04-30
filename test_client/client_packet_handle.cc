@@ -43,7 +43,7 @@ int Client_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __pac
 			if (LOGIN_STATUS_OK == __status)
 			{
 				printf("login ok,ready for connect proxy ip:%s,port:%d\n",__packet_l2c_login.proxy_ip().c_str(),__packet_l2c_login.proxy_port());
-				Client::instance()->connect_proxy(__packet_l2c_login.proxy_ip().c_str(),__packet_l2c_login.proxy_port());
+				Client::instance()->connect_proxy(__packet_l2c_login.proxy_ip().c_str(),__packet_l2c_login.proxy_port(),__packet_l2c_login.unique_id());
 				Client::instance()->disconnect_login();
 				//	for test 
 				Client::instance()->send_test_msg();

@@ -41,11 +41,13 @@ int Login_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __pack
 			std::string __user_name = __packet_c2l.user_name();
 			std::string __user_pwd = __packet_c2l.user_pwd();
 			MongocxxUnitLogin __mongocxx_unit_login;
-			easy_bool __success = __mongocxx_unit_login.query(__user_name,__user_pwd);
+			easy_int32 __unique_id = 0;
+			easy_bool __success = __mongocxx_unit_login.query(__user_name,__user_pwd,__unique_id);
 			if(__success){
 				login::l2c_login __packet_l2c_login;
 				__packet_l2c_login.set_msg_id(MSG_L2C_LOGIN);
 				__packet_l2c_login.set_status(LOGIN_STATUS_OK);
+				__packet_l2c_login.set_unique_id(__unique_id);
 				Proxy_Info* __proxy_info = JsonLogin::instance()->get_proxy_info();
 				if (__proxy_info)
 				{

@@ -22,6 +22,12 @@
 
 #include "proxy_client.h"
 #include "proxy.h"
+#include "session_wrapper.h"
+#include "session.h"
+
+#ifndef __USE_UNIQUE_ID
+#define __USE_UNIQUE_ID
+#endif //__USE_UNIQUE_ID
 
 Proxy_client::Proxy_client( Reactor* __reactor,const easy_char* __host,easy_uint32 __port /*= 9876*/ )
 	: Client_Impl(__reactor,__host,__port)
@@ -32,6 +38,13 @@ Proxy_client::Proxy_client( Reactor* __reactor,const easy_char* __host,easy_uint
 easy_int32 Proxy_client::handle_packet( easy_int32 __fd,const std::string& __string_packet ,void* __user_data)
 {
 	easy_uint32 __packet_length = __string_packet.length();
+#ifdef __USE_UNIQUE_ID
+	Session* __session = Session_Wrapper::instance()->get_session(__fd);
+	if (!__session)
+	{
+		return -1;
+	}
+#endif //__USE_UNIQUE_ID
 #if 0
 	static const easy_int32 max_buffer_size_ = 8*1024;
 	easy_char __buffer[max_buffer_size_] = {};
@@ -40,8 +53,13 @@ easy_int32 Proxy_client::handle_packet( easy_int32 __fd,const std::string& __str
 	memcpy(__buffer + __head_size,__string_packet.c_str(),__packet_length);
 	Proxy::instance()->send_packet(__fd,__buffer,__head_size + __packet_length);
 #else
+#ifdef __USE_UNIQUE_ID
+	Proxy::instance()->send_packet(__session->real_fd(),(easy_char*)&__packet_length,sizeof(__packet_length));
+	Proxy::instance()->send_packet(__session->real_fd(),__string_packet.c_str(),__packet_length);
+#else
 	Proxy::instance()->send_packet(__fd,(easy_char*)&__packet_length,sizeof(__packet_length));
 	Proxy::instance()->send_packet(__fd,__string_packet.c_str(),__packet_length);
+#endif //__USE_UNIQUE_ID
 #endif
 #ifdef __DEBUG_
 	printf("send_packet %d\n",__packet_length);

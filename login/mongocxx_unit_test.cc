@@ -74,6 +74,15 @@ void MongocxxUnitTest::test()
 		verify( __count == 2 );
 	}
 	//	test mongo code end
-	easy::MongocxxWrapper::instance()->db_client_connection().insert( collection_ ,BSON( "lee" << "lee" ) );
+
+	//	query the count of collections
+	std::auto_ptr<mongo::DBClientCursor> __cursor = easy::MongocxxWrapper::instance()->db_client_connection().query( collection_ , mongo::BSONObj() );
+	easy_int32 __count = 0;
+	while ( __cursor->more() ) 
+	{
+		__count++;
+		mongo::BSONObj __obj = __cursor->next();
+	}
+	easy::MongocxxWrapper::instance()->db_client_connection().insert( collection_ ,BSON( "id"<< ++__count << "lee" << "lee" ) );
 	printf("mongo cxx test\n");
 }

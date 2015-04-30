@@ -33,7 +33,7 @@ MongocxxUnitLogin::~MongocxxUnitLogin()
 
 }
 
-bool MongocxxUnitLogin::query( std::string& __user_name, std::string& __user_pwd )
+bool MongocxxUnitLogin::query( std::string& __user_name, std::string& __user_pwd, easy_int32& __unique_id )
 {
 	std::auto_ptr<mongo::DBClientCursor> __cursor = easy::MongocxxWrapper::instance()->db_client_connection().query( collection_ , mongo::BSONObj() );
 	while (__cursor->more())
@@ -42,6 +42,7 @@ bool MongocxxUnitLogin::query( std::string& __user_name, std::string& __user_pwd
 		const easy_char* __pwd = __res.getStringField( __user_name ); 
 		if (__user_pwd == __pwd)
 		{
+			__unique_id = __res.getIntField("id");
 			return true;
 		}
 	}

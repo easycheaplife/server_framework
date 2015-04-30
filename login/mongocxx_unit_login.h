@@ -33,7 +33,7 @@ public:
 
 	void init();
 
-	bool query(std::string& __user_name, std::string& __user_pwd);
+	bool query(std::string& __user_name, std::string& __user_pwd,easy_int32& __unique_id);
 
 	void save();
 };

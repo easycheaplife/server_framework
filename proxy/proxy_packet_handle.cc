@@ -24,15 +24,36 @@
 #include "proxy.h"
 #include "proxy_client.h"
 #include "json_proxy.h"
+#include "session_wrapper.h"
+#include "session.h"
 #ifdef __DEBUG
 #include "transfer.pb.h"
 #endif // __DEBUG
 
+#ifndef __USE_UNIQUE_ID
+#define __USE_UNIQUE_ID
+#endif //__USE_UNIQUE_ID
 int Proxy_Packet_Handle::handle_packet(easy_int32 __fd,const std::string& __packet,void* __user_data )
 {
+	//	convert void* to int16 is ok, but int32 is error,why?
+	easy_uint16* __unique_id = (easy_uint16*)(__user_data);
+#ifdef __USE_UNIQUE_ID
+	Session* __session = Session_Wrapper::instance()->get_session(*__unique_id);
+	if(!__session)
+	{
+		//	session for client connection
+		__session = new Session();
+		__session->set_real_fd(__fd);
+		Session_Wrapper::instance()->add_session(*__unique_id,__session);
+	}
+#endif
 	//	add current fd to head,high 16 bits, then send to core
 	easy_uint32 __packet_length = __packet.length();
+#ifdef __USE_UNIQUE_ID
+	__packet_length |= (/*__fd*/*__unique_id << 16);
+#else
 	__packet_length |= (__fd << 16);
+#endif //__USE_UNIQUE_ID
 	Core_Info* __core_info = Proxy::instance()->get_core_info(__fd);
 	if (__core_info)
 	{

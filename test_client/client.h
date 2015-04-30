@@ -20,7 +20,7 @@ public:
 
 	void	disconnect_login();
 
-	easy_bool connect_proxy(const easy_char* __host, easy_uint32 __port);
+	easy_bool connect_proxy(const easy_char* __host, easy_uint32 __port,easy_uint32 __unique_id);
 
 	void	send_login_msg();
 
@@ -42,6 +42,8 @@ private:
 	std::string			proxy_host_;
 
 	easy_uint32			proxy_port_;
+
+	easy_int32			unique_id_;
 				
 };
 #endif // client_h__
