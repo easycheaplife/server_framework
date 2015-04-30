@@ -26,7 +26,7 @@
 #include "session.h"
 
 #ifndef __USE_UNIQUE_ID
-#define __USE_UNIQUE_ID
+//#define __USE_UNIQUE_ID
 #endif //__USE_UNIQUE_ID
 
 Proxy_client::Proxy_client( Reactor* __reactor,const easy_char* __host,easy_uint32 __port /*= 9876*/ )
