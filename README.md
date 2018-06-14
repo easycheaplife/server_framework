@@ -12,7 +12,7 @@ $git clone git@github.com:yuyunliuhen/easy.git<br>
 $git clone git@github.com:yuyunliuhen/tinynet.git<br>
 $git clone git@github.com:yuyunliuhen/server_framework.git<br>
 
-#####windwos
+##### windwos
 (1) compiler or install boost<br>
 download from boost binaries: http://sourceforge.net/projects/boost/files/boost-binaries/, recommend 1.53 if you use vs2012.
 
@@ -39,7 +39,7 @@ use windwos command tools:VS2012 x64 Cross Tools Command Prompt <br>
 cmake -G "Visual Studio 11 Win64" . <br>
 msbuild.exe ALL_BUILD.vcxproj
 
-#####linux
+##### linux
 (1) compile boost
 download from boost:http://www.boost.org/<br>
 $tar zxvf boost_1_49_0.tar.gz<br>
@@ -73,9 +73,9 @@ $cd server_framework <br>
 $cmake . ( if you want to debug ,you should do cmake -DCMAKE_BUILD_TYPE=Debug .<br>
 $make<br>
 
-######or
+###### or
 excute build_x64/x86.bat at windows(visual studio 2012 or later ) or build.sh at linux(gcc 4.8.1 or later ). 
-######all dependency static/dynamic library and exe are build and place at dep directory, that is to say,protobuf,mongodb,protobuf is compiler ok,you can use it directly.
+###### all dependency static/dynamic library and exe are build and place at dep directory, that is to say,protobuf,mongodb,protobuf is compiler ok,you can use it directly.
 
 configure:
 ---
@@ -85,7 +85,7 @@ add or remove core/proxy server if you want.<br>
 
 run:
 ---
-#####linux
+##### linux
 set environment:<br>
 ![](http://img.blog.csdn.net/20150416160501831)
  and then <br>
