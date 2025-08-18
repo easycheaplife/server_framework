@@ -1,108 +1,126 @@
-server_framework
-================
+# Server Framework
 
-a c++ server framework for mobile game which uses tinynet,google protobuf,mongodb and so on. 
+A C++ server framework for mobile game development, integrating tinynet, Google Protobuf, MongoDB, and other components.
 
+## Quick Start
 
+### Clone Repositories
+```bash
+git clone git@github.com:yuyunliuhen/server_framework.git
+git clone git@github.com:yuyunliuhen/tinynet.git
+git clone git@github.com:yuyunliuhen/easy.git
+```
 
-build:
----
-download or git from github:<br>
-$git clone git@github.com:yuyunliuhen/easy.git<br>
-$git clone git@github.com:yuyunliuhen/tinynet.git<br>
-$git clone git@github.com:yuyunliuhen/server_framework.git<br>
+## Build Instructions
 
-##### windwos
-(1) compiler or install boost<br>
-download from boost binaries: http://sourceforge.net/projects/boost/files/boost-binaries/, recommend 1.53 if you use vs2012.
+### Windows
+1. Install Boost
+   - Download from [Boost binaries](http://sourceforge.net/projects/boost/files/boost-binaries/)
+   - Recommended version: 1.53 for VS2012
 
-(2) install scons<br>
-download from http://www.scons.org/download.php, the latest version is 2.3.3<br>
+2. Install SCons
+   - Download from [SCons website](http://www.scons.org/download.php)
+   - Latest version: 2.3.3
 
-(3) compiler mongodb c++ driver<br>
-git clone https://github.com/mongodb/mongo-cxx-driver.git (current latest stable version is 26compat) .<br>
-$cd easy/dep/mongo-cxx-driver, excute command at cmd:<br>
-scons --cpppath="C:\local\boost_1_53_0" --libpath="C:\local\boost_1_53_0\lib64-msvc-11.0" --64 --sharedclient --dynamic-windows --dbg=on<br>
-more detail:<br>
-[mongodb windows ](http://blog.chinaunix.net/uid-8625039-id-4446874.html)<br>
+3. Build MongoDB C++ Driver
+   ```bash
+   git clone https://github.com/mongodb/mongo-cxx-driver.git
+   cd easy/dep/mongo-cxx-driver
+   scons --cpppath="C:\local\boost_1_53_0" --libpath="C:\local\boost_1_53_0\lib64-msvc-11.0" --64 --sharedclient --dynamic-windows --dbg=on
+   ```
+   See [MongoDB Windows Guide](http://blog.chinaunix.net/uid-8625039-id-4446874.html) for details.
 
-(4) compiler jansson<br>
-open easy/dep/jansson/win32/vs2012/jansson.sln and compiler it <br>
+4. Build Jansson
+   ```
+   Open easy/dep/jansson/win32/vs2012/jansson.sln and build
+   ```
 
-(4) compiler protobuf<br>
-open easy/dep/protobufvsprojects/protobuf.sln and compiler it <br>
+5. Build Protobuf
+   ```
+   Open easy/dep/protobufvsprojects/protobuf.sln and build
+   ```
 
-(6) compile server framework<br>
-general proto files first, if not call this file, error will be happend when compiler later<br>
-general_proto_64.bat<br>
-use windwos command tools:VS2012 x64 Cross Tools Command Prompt <br>
-cmake -G "Visual Studio 11 Win64" . <br>
-msbuild.exe ALL_BUILD.vcxproj
+6. Build Server Framework
+   ```bash
+   # Generate protocol files
+   general_proto_64.bat
+   
+   # Using VS2012 x64 Cross Tools Command Prompt
+   cmake -G "Visual Studio 11 Win64" .
+   msbuild.exe ALL_BUILD.vcxproj
+   ```
 
-##### linux
-(1) compile boost
-download from boost:http://www.boost.org/<br>
-$tar zxvf boost_1_49_0.tar.gz<br>
-$cd boost_1_49_0<br>
-$./bootstrap.sh<br>
-$./b2 install<br>
+### Linux/macOS
+1. Build Boost
+   ```bash
+   # Download from http://www.boost.org/
+   tar zxvf boost_1_49_0.tar.gz
+   cd boost_1_49_0
+   ./bootstrap.sh
+   ./b2 install
+   ```
 
-(2) compiler scons for mongodb cxx driver<br>
-download from scons:http://www.scons.org/<br>
-$tar zxvf scons-2.3.3.tar.gz<br>
-$cd scons-2.3.3 & python setup.py install <br>
+2. Install SCons
+   ```bash
+   # Download from http://www.scons.org/
+   tar zxvf scons-2.3.3.tar.gz
+   cd scons-2.3.3
+   python setup.py install
+   ```
 
-(3) compiler protobuf<br>
-$cd easy/dep/protobuf<br>
-$./configure & make<br>
-more detail:<br>
-[google protobuf](http://blog.chinaunix.net/uid-8625039-id-4430741.html)<br>
+3. Build Dependencies
+   ```bash
+   # Protobuf
+   cd easy/dep/protobuf
+   ./configure && make
+   
+   # Jansson
+   cd easy/dep/jansson
+   ./configure && make
+   
+   # MongoDB
+   cd mongo-cxx-driver
+   scons all
+   # For custom boost path:
+   # scons --cpppath="/home/lee/install/include" --libpath="/home/lee/install/lib"
+   ```
+   
+   See [Google Protobuf Guide](http://blog.chinaunix.net/uid-8625039-id-4430741.html) and [MongoDB Linux Guide](http://blog.chinaunix.net/uid-8625039-id-4444101.html) for details.
 
-(4)	compiler jansson<br>
-$cd easy/dep/jansson<br>
-$./configure & make<br>
+4. Build Server Framework
+   ```bash
+   cd server_framework
+   cmake . # For debug: cmake -DCMAKE_BUILD_TYPE=Debug .
+   make
+   ```
 
-(5)	compiler mongodb<br>
-$cd .. & cd mongo-cxx-driver<br>
-$scons all (if you install boost is not default,you can use like this:scons --cpppath="/home/lee/install/include" --libpath="/home/lee/install/lib")<br>
-more detail:<br>
-[mongodb linux ](http://blog.chinaunix.net/uid-8625039-id-4444101.html) <br>
+Alternative: Use build scripts
+- Windows: `build_x64.bat` or `build_x86.bat` (Visual Studio 2012+)
+- Linux: `build.sh` (GCC 4.8.1+)
 
-(6) compile server framework<br>
-$cd server_framework <br>
-$cmake . ( if you want to debug ,you should do cmake -DCMAKE_BUILD_TYPE=Debug .<br>
-$make<br>
+Note: All dependency libraries are pre-built in the `dep` directory.
 
-###### or
-excute build_x64/x86.bat at windows(visual studio 2012 or later ) or build.sh at linux(gcc 4.8.1 or later ). 
-###### all dependency static/dynamic library and exe are build and place at dep directory, that is to say,protobuf,mongodb,protobuf is compiler ok,you can use it directly.
+## Configuration
 
-configure:
----
-you can find file at config directory. it looks like that:<br>
-![](http://img.blog.csdn.net/20150416160100480) <br>
-add or remove core/proxy server if you want.<br>
+The configuration file is located at `config/servers_template.json`. You can add or remove core/proxy servers as needed.
 
-run:
----
-##### linux
-set environment:<br>
-![](http://img.blog.csdn.net/20150416160501831)
- and then <br>
- $./bin/core 192.168.20.135 8881<br>
- $./bin/core 192.168.20.135 8882<br>
- $./bin/proxy 192.168.20.135 8871<br>
- $./bin/proxy 192.168.20.135 8872<br>
- $./bin/login 192.168.20.135 8861<br>
- 
- test:<br>
- $./bin/test_client 192.168.20.135 8861<br>
- 
-press test:
----
-[server framework performance test](http://blog.chinaunix.net/uid-8625039-id-4911018.html)<br>
+## Running
 
+### Linux Environment Setup
+Set environment variables using `env.sh`, then:
 
-other:
----
-[server framework base on nosql](http://blog.chinaunix.net/uid-8625039-id-4766151.html)<br>
+```bash
+./bin/core 192.168.20.135 8881
+./bin/core 192.168.20.135 8882
+./bin/proxy 192.168.20.135 8871
+./bin/proxy 192.168.20.135 8872
+./bin/login 192.168.20.135 8861
+
+# Test client
+./bin/test_client 192.168.20.135 8861
+```
+
+## Additional Resources
+
+- [Performance Test Report](http://blog.chinaunix.net/uid-8625039-id-4911018.html)
+- [NoSQL Integration Guide](http://blog.chinaunix.net/uid-8625039-id-4766151.html)
